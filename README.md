@@ -26,7 +26,7 @@ Add the following to your dependencies in Cargo.toml
 ```toml
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
-rapiddb = "0.1.1"
+rapiddb = "0.1.3"
 ```
 
 Paste the following to your main.rs
