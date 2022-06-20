@@ -21,3 +21,4 @@ rapiddb/.temp/
 rapiddb/.db/
 bench.log
 bench/
+.env
