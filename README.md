@@ -6,6 +6,68 @@ A reasonably fast configurable embeded key-value sensor database
 - Memory Mapped Append-only Vector backing storage
 - Bring your own database or API implementation
 
+## Getting Started
+### Docker
+Run database with docker
+```bash
+docker run -dit --rm -p 3030:3030 --name rapiddb ghcr.io/kruserr/rapiddb/rapiddb
+```
+
+### Git and cargo
+Clone the repo and build the database from source
+```bash
+git clone https://github.com/kruserr/rapiddb.git
+cd rapiddb
+cargo run --release
+```
+
+### Add to your cargo project
+Add the following to your dependencies in Cargo.toml
+```toml
+tokio = { version = "1", features = ["full"] }
+warp = "0.3"
+rapiddb = "0.1.1"
+```
+
+Paste the following to your main.rs
+```rust
+#[tokio::main]
+async fn main() {
+    let db = std::sync::Arc::new(std::sync::RwLock::new(rapiddb::db::MMAVDatabase::new()));
+
+    warp::serve(rapiddb::api::endpoints(db))
+        .run(([0, 0, 0, 0], 3030))
+        .await;
+}
+```
+
+Run the database with cargo
+```
+cargo run --release
+```
+
+### Interact with the database using curl
+Write to database with curl
+```bash
+curl -X POST localhost:3030/api/v0/test-0 -H 'Content-Type: application/json' -d '{"temp":4.00}'
+```
+
+Read from database with curl
+```bash
+curl localhost:3030/api/v0/test-0/latest
+```
+
+Explore the API with curl
+```bash
+curl localhost:3030/api/v0
+curl localhost:3030/api/v0/sensors
+curl localhost:3030/api/test-0
+```
+
+### Explore and customize the database
+The database is highly custimizable, if you use the database inside your cargo project. You can interact with the `db` object, and explore the `IDatabase` interface. You can also use `warp::Filter` to extend the API. You can also implement the `IDatabase` interface yourself, for your own database.
+Explore the docs to learn more, or look at the examples below, or inside the repo.
+
 ## Examples
 Using the database directly
 ```rust
