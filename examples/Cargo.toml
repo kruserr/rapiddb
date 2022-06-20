@@ -1,0 +1,25 @@
+[package]
+name = "examples"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[dependencies]
+rapiddb = { path = "../rapiddb", features = ["full"] }
+
+tokio = { version = "1", features = ["full"] }
+warp = "0.3"
+serde = "1.0"
+serde_json = "1.0"
+
+[[example]]
+name = "init"
+path = "init.rs"
+
+[[example]]
+name = "bench-rm"
+path = "bench-rm.rs"
+
+[[example]]
+name = "bench-mmav"
+path = "bench-mmav.rs"

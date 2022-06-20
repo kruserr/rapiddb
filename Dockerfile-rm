@@ -1,0 +1,18 @@
+FROM docker.io/ubuntu:22.04 AS builder
+RUN apt-get update && apt-get install -y curl gcc pkg-config libssl-dev
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=1.61
+WORKDIR /usr/src/app
+COPY . ./
+RUN ~/.cargo/bin/cargo build --release --example bench-rm
+
+FROM docker.io/ubuntu:22.04
+RUN apt-get update && apt-get install -y redis mysql-server wrk && rm -rf /var/lib/apt/lists/*
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app/target/release/examples/bench-rm ./
+COPY --from=builder /usr/src/app/wrk.lua ./
+RUN sed -e '/bind-address/ s/^#*/#/' -i /etc/mysql/mysql.conf.d/mysqld.cnf
+RUN service mysql start && \
+    mysql -e "UPDATE mysql.user SET host='%' WHERE user='root'" && \
+    mysql -e "UPDATE mysql.user SET plugin='mysql_native_password' WHERE user='root'" && \
+    mysql -e "FLUSH PRIVILEGES"
+CMD service mysql start && (redis-server --protected-mode no --databases 100 &) && sleep 1 && /usr/src/app/bench-rm

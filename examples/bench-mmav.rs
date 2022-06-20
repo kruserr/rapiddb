@@ -1,59 +1,7 @@
-# RapidDB
-A resonably fast configurable embeded key-value database
-
-## Features
-- Simple embeded REST API
-- Memory Mapped Append-only Vector backing storage
-- Bring your own database or API implementation
-
-## Examples
-Using the database directly
-```rust
-use rapiddb::traits::IDatabase;
-
-let db = std::sync::Arc::new(
-  std::sync::RwLock::new(
-    rapiddb::db::MMAVDatabase::new()
-  )
-);
-
-let value = b"{\"key\": \"value\"}";
-db.write().unwrap().post("test-0", value);
-assert_eq!(db.write().unwrap().get_latest("test-0"), value);
-```
-
-Extending the functionallity of the REST API with custom endpoints using warp Filters and custom aggregates
-```rust
 use std::{
     collections::HashMap,
     sync::{Arc, Mutex, RwLock},
 };
-
-use rapiddb::traits::IDatabase;
-
-use warp::Filter;
-
-/// GET /api/custom/:String/latest
-pub fn get_latest_custom(
-    db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
-) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("api" / "custom" / String / "latest")
-        .and(warp::get())
-        .map(move |id: String| {
-            let mut lock = db.write().unwrap();
-            let result = lock.get_latest(&id);
-
-            if !result.is_empty() {
-                return warp::hyper::Response::builder()
-                    .status(warp::http::StatusCode::OK)
-                    .body(result);
-            }
-
-            warp::hyper::Response::builder()
-                .status(warp::http::StatusCode::NOT_FOUND)
-                .body(Default::default())
-        })
-}
 
 #[tokio::main]
 async fn main() {
@@ -102,12 +50,7 @@ async fn main() {
         aggregates_fn,
     )));
 
-    let value = b"{\"key\": \"value\"}";
-    db.write().unwrap().post("test-0", value);
-    assert_eq!(db.write().unwrap().get_latest("test-0"), value);
-
-    warp::serve(rapiddb::api::endpoints(db.clone()).or(get_latest_custom(db)))
+    warp::serve(rapiddb::api::endpoints(db))
         .run(([0, 0, 0, 0], 3030))
         .await;
 }
-```

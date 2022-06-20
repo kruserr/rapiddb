@@ -1,0 +1,13 @@
+FROM docker.io/ubuntu:22.04 AS builder
+RUN apt-get update && apt-get install -y curl gcc pkg-config libssl-dev
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain=1.61
+WORKDIR /usr/src/app
+COPY . ./
+RUN ~/.cargo/bin/cargo build --release --example bench-mmav
+
+FROM docker.io/ubuntu:22.04
+RUN apt-get update && apt-get install -y wrk && rm -rf /var/lib/apt/lists/*
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app/target/release/examples/bench-mmav ./
+COPY --from=builder /usr/src/app/wrk.lua ./
+CMD /usr/src/app/bench-mmav

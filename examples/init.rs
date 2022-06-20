@@ -1,29 +1,3 @@
-# RapidDB
-A resonably fast configurable embeded key-value database
-
-## Features
-- Simple embeded REST API
-- Memory Mapped Append-only Vector backing storage
-- Bring your own database or API implementation
-
-## Examples
-Using the database directly
-```rust
-use rapiddb::traits::IDatabase;
-
-let db = std::sync::Arc::new(
-  std::sync::RwLock::new(
-    rapiddb::db::MMAVDatabase::new()
-  )
-);
-
-let value = b"{\"key\": \"value\"}";
-db.write().unwrap().post("test-0", value);
-assert_eq!(db.write().unwrap().get_latest("test-0"), value);
-```
-
-Extending the functionallity of the REST API with custom endpoints using warp Filters and custom aggregates
-```rust
 use std::{
     collections::HashMap,
     sync::{Arc, Mutex, RwLock},
@@ -110,4 +84,3 @@ async fn main() {
         .run(([0, 0, 0, 0], 3030))
         .await;
 }
-```
