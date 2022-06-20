@@ -112,11 +112,7 @@
 //! }
 //! ```
 
-#[cfg(feature = "db")]
 pub mod db;
-
-#[cfg(feature = "api")]
 pub mod api;
-
 pub mod errors;
 pub mod traits;

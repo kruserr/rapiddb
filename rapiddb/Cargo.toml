@@ -7,12 +7,6 @@ license = "AGPL-3.0"
 repository = "https://github.com/kruserr/rapiddb/"
 description = "A resonably fast configurable embeded key-value database"
 
-[features]
-default = []
-full = ["db", "api"]
-db = []
-api = []
-
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
