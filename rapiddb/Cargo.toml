@@ -1,12 +1,12 @@
 [package]
 name = "rapiddb"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 default-run = "rapiddb"
 license = "AGPL-3.0"
 readme = "../README.md"
 repository = "https://github.com/kruserr/rapiddb/"
-description = "A reasonably fast configurable embeded key-value sensor database"
+description = "A reasonably fast configurable embedded key-value sensor database"
 keywords = ["database", "key-value", "mmav", "redis", "mysql"]
 categories = ["database-implementations", "caching", "science"]
 

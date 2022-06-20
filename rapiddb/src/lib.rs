@@ -1,5 +1,5 @@
 //! # RapidDB
-//! A reasonably fast configurable embeded key-value sensor database
+//! A reasonably fast configurable embedded key-value sensor database
 //!
 //! ## Features
 //! - Simple embeded REST API
@@ -26,7 +26,7 @@
 //! ```toml
 //! tokio = { version = "1", features = ["full"] }
 //! warp = "0.3"
-//! rapiddb = "0.1.3"
+//! rapiddb = "0.1.4"
 //! ```
 //!
 //! Paste the following to your main.rs
