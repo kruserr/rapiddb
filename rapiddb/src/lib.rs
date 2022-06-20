@@ -30,7 +30,7 @@
 //! ```
 //!
 //! Paste the following to your main.rs
-//! ```rust
+//! ```no_run
 //! #[tokio::main]
 //! async fn main() {
 //!     let db = std::sync::Arc::new(std::sync::RwLock::new(rapiddb::db::MMAVDatabase::new()));
@@ -42,7 +42,7 @@
 //! ```
 //!
 //! Run the database with cargo
-//! ```
+//! ```bash
 //! cargo run --release
 //! ```
 //!

@@ -42,7 +42,7 @@ async fn main() {
 ```
 
 Run the database with cargo
-```
+```bash
 cargo run --release
 ```
 
