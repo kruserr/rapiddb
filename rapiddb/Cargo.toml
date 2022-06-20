@@ -3,6 +3,8 @@ name = "rapiddb"
 version = "0.1.0"
 edition = "2021"
 default-run = "rapiddb"
+license = "AGPL-3.0"
+description = "A resonably fast configurable embeded key-value database"
 
 [features]
 default = []
