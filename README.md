@@ -1,5 +1,5 @@
 # RapidDB
-A resonably fast configurable embeded key-value database
+A reasonably fast configurable embeded key-value sensor database
 
 ## Features
 - Simple embeded REST API
