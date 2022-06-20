@@ -1,5 +1,5 @@
 [build]
-rustflags = ["-C", "target-cpu=native"]
+#rustflags = ["-C", "target-cpu=native"]
 
 [profile.dev]
 opt-level = 0
