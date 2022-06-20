@@ -1,6 +1,6 @@
 FROM docker.io/ubuntu:22.04
-RUN apt update
-RUN apt install -y redis mysql-server
+RUN apt-get update && apt-get install -y redis mysql-server && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/src/app
-RUN sed -e '/bind-address/ s/^#*/#/' -i /etc/mysql/mysql.conf.d/mysqld.cnf
+RUN sed '/bind-address/ s/^#*/#/' -i /etc/mysql/mysql.conf.d/mysqld.cnf
+RUN sed 's/# max_connections        = 151/max_connections = 1000/' -i /etc/mysql/mysql.conf.d/mysqld.cnf
 CMD service mysql start && redis-server --protected-mode no --databases 100
