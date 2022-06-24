@@ -24,9 +24,9 @@
 /// });
 /// ```
 pub enum MMAVError {
-    FileFull,
-    ArrayFull,
-    ArrayEmpty,
-    IndexOutOfRange,
-    IndexOutOfBounds,
+  FileFull,
+  ArrayFull,
+  ArrayEmpty,
+  IndexOutOfRange,
+  IndexOutOfBounds,
 }
