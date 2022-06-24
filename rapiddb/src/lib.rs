@@ -6,6 +6,9 @@
 //! - Memory Mapped Append-only Vector backing storage
 //! - Bring your own database or API implementation
 //!
+//! ## Documentation
+//! Visit the [Documentation](https://docs.rs/rapiddb).
+//!
 //! ## Getting Started
 //! ### Docker
 //! Run database with docker
