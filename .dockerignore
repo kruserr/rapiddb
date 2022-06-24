@@ -23,3 +23,8 @@ bench.sh
 bench-build.sh
 devel.sh
 bench/
+bench-0/
+bench-2022-06-20/
+bench-2022-06-21/
+bench-2022-06-23/
+venv/
