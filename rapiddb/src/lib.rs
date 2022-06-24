@@ -91,7 +91,8 @@
 //! ```
 //!
 //! Extending the functionallity of the REST API with custom endpoints
-//! using warp Filters and custom aggregates ```no_run
+//! using warp Filters and custom aggregates
+//! ```no_run
 //! use std::{
 //!   collections::HashMap,
 //!   sync::{Arc, Mutex, RwLock},
