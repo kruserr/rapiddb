@@ -9,7 +9,8 @@ use crate::traits::IDatabase;
 static REDIS_COUNTER: std::sync::atomic::AtomicUsize =
   std::sync::atomic::AtomicUsize::new(1);
 
-/// Database test factory, stores a hashmap with all databases for testing
+/// Database test factory, stores a hashmap with all databases for
+/// testing
 ///
 /// ## Examples
 /// ```no_run

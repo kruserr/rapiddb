@@ -67,8 +67,12 @@
 //! ```
 //!
 //! ### Explore and customize the database
-//! The database is highly custimizable, if you use the database inside your cargo project. You can interact with the `db` object, and explore the `IDatabase` interface. You can also use `warp::Filter` to extend the API. You can also implement the `IDatabase` interface yourself, for your own database.
-//! Explore the docs to learn more, or look at the examples below, or inside the repo.
+//! The database is highly custimizable, if you use the database inside
+//! your cargo project. You can interact with the `db` object, and
+//! explore the `IDatabase` interface. You can also use `warp::Filter`
+//! to extend the API. You can also implement the `IDatabase` interface
+//! yourself, for your own database. Explore the docs to learn more, or
+//! look at the examples below, or inside the repo.
 //!
 //! ## Examples
 //! Using the database directly
@@ -86,8 +90,8 @@
 //! assert_eq!(db.write().unwrap().get_latest("test-0"), value);
 //! ```
 //!
-//! Extending the functionallity of the REST API with custom endpoints using warp Filters and custom aggregates
-//! ```no_run
+//! Extending the functionallity of the REST API with custom endpoints
+//! using warp Filters and custom aggregates ```no_run
 //! use std::{
 //!   collections::HashMap,
 //!   sync::{Arc, Mutex, RwLock},

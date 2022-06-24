@@ -35,7 +35,8 @@ pub trait IDatabase: Send + Sync {
   /// ```
   fn contains(&self, id: &str) -> bool;
 
-  /// Get the record with `rec_id` from the sensor with `id` in the Database
+  /// Get the record with `rec_id` from the sensor with `id` in the
+  /// Database
   ///
   /// May load data from disk, if it is not in-memory,
   /// as such it is mutable, even though a get normaly
@@ -142,10 +143,12 @@ pub trait IDatabase: Send + Sync {
   // fn get_latest(&mut self, id: &str) -> Vec<u8>;
   fn get_latest(&mut self, id: &str) -> Vec<u8>;
 
-  /// Get the latest `limit` number of records from the sensor with `id` in the Database
+  /// Get the latest `limit` number of records from the sensor with `id`
+  /// in the Database
   ///
   /// May load data from disk, if it is not in-memory,
-  /// as such it is mutable, even though a get latest limit normaly is immutable.
+  /// as such it is mutable, even though a get latest limit normaly is
+  /// immutable.
   ///
   /// ## Examples
   /// ```no_run
@@ -165,10 +168,12 @@ pub trait IDatabase: Send + Sync {
     limit: usize,
   ) -> Vec<Vec<u8>>;
 
-  /// Get a range from `start` to `end` of records from the sensor with `id` in the Database
+  /// Get a range from `start` to `end` of records from the sensor with
+  /// `id` in the Database
   ///
   /// May load data from disk, if it is not in-memory,
-  /// as such it is mutable, even though a range scan normaly is immutable.
+  /// as such it is mutable, even though a range scan normaly is
+  /// immutable.
   ///
   /// ## Examples
   /// ```no_run
@@ -243,10 +248,12 @@ pub trait IDatabase: Send + Sync {
     &mut self,
   ) -> std::collections::HashMap<&str, Vec<u8>>;
 
-  /// Get the latest `limit` number of records from all sensors in the Database
+  /// Get the latest `limit` number of records from all sensors in the
+  /// Database
   ///
   /// May load data from disk, if it is not in-memory,
-  /// as such it is mutable, even though a get latest limit normaly is immutable.
+  /// as such it is mutable, even though a get latest limit normaly is
+  /// immutable.
   ///
   /// ## Examples
   /// ```no_run

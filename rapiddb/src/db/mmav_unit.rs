@@ -163,7 +163,7 @@ impl MMAVUnit {
   /// MMAVError::ArrayEmpty
   /// MMAVError::IndexOutOfRange
   /// MMAVError::IndexOutOfBounds
-  ///```
+  /// ```
   ///
   /// ## Examples
   /// ```ignore

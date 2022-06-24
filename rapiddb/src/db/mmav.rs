@@ -5,8 +5,8 @@ use crate::errors::MMAVError;
 ///
 /// This is a higher abstraction above MMAVUnit, that allows
 /// using multiple MMAVUnits, which are loaded and unloaded on demand.
-/// This ultimitely allows for a dynamically allocated append-only vector,
-/// which uses memory mapped file io.
+/// This ultimitely allows for a dynamically allocated append-only
+/// vector, which uses memory mapped file io.
 ///
 /// ## Examples
 /// ```ignore
@@ -352,7 +352,8 @@ impl MMAV {
   /// Get range from `start` to `end`
   ///
   /// May load data from disk, if it is not in-memory,
-  /// as such it is mutable, even though a range scan normaly is immutable.
+  /// as such it is mutable, even though a range scan normaly is
+  /// immutable.
   ///
   /// ## Examples
   /// ```ignore
@@ -384,7 +385,8 @@ impl MMAV {
   /// Get last `limit` number of items from vector
   ///
   /// May load data from disk, if it is not in-memory,
-  /// as such it is mutable, even though a get last item normaly is immutable.
+  /// as such it is mutable, even though a get last item normaly is
+  /// immutable.
   ///
   /// ## Examples
   /// ```ignore
