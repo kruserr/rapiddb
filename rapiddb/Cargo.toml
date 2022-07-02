@@ -7,7 +7,7 @@ license = "AGPL-3.0"
 readme = "../README.md"
 repository = "https://github.com/kruserr/rapiddb/"
 description = "A reasonably fast configurable embedded key-value sensor database"
-keywords = ["database", "embedded-database", "key-value", "persistence", "store"]
+keywords = ["database", "embedded-database", "db", "persistence", "key-value"]
 categories = ["database", "database-implementations", "caching"]
 
 [dependencies]
