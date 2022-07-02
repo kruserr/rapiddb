@@ -1,14 +1,14 @@
 [package]
 name = "rapiddb"
-version = "0.1.5"
+version = "0.1.6"
 edition = "2021"
 default-run = "rapiddb"
 license = "AGPL-3.0"
 readme = "../README.md"
 repository = "https://github.com/kruserr/rapiddb/"
 description = "A reasonably fast configurable embedded key-value sensor database"
-keywords = ["database", "key-value", "mmav", "redis", "mysql"]
-categories = ["database-implementations", "caching", "science"]
+keywords = ["database", "embedded-database", "key-value", "persistence", "store"]
+categories = ["database", "database-implementations", "caching"]
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
