@@ -2,7 +2,10 @@
 //! A reasonably fast configurable embedded key-value sensor database
 //!
 //! ## Features
-//! - Simple embeded REST API
+//! - Simple and flexible optional embedded REST API
+//! - Simple key-value database interface
+//! - Lightweight embedded database
+//! - Store sensor data inside a sensor database
 //! - Memory Mapped Append-only Vector backing storage
 //! - Bring your own database or API implementation
 //!
@@ -29,7 +32,7 @@
 //! ```toml
 //! tokio = { version = "1", features = ["full"] }
 //! warp = "0.3"
-//! rapiddb = "0.1.5"
+//! rapiddb = "0.1.6"
 //! ```
 //!
 //! Paste the following to your main.rs
@@ -70,7 +73,7 @@
 //! ```
 //!
 //! ### Explore and customize the database
-//! The database is highly custimizable, if you use the database inside
+//! The database is highly customizable, if you use the database inside
 //! your cargo project. You can interact with the `db` object, and
 //! explore the `IDatabase` interface. You can also use `warp::Filter`
 //! to extend the API. You can also implement the `IDatabase` interface
@@ -93,7 +96,7 @@
 //! assert_eq!(db.write().unwrap().get_latest("test-0"), value);
 //! ```
 //!
-//! Extending the functionallity of the REST API with custom endpoints
+//! Extending the functionality of the REST API with custom endpoints
 //! using warp Filters and custom aggregates
 //! ```no_run
 //! use std::{

@@ -2,7 +2,10 @@
 A reasonably fast configurable embedded key-value sensor database
 
 ## Features
-- Simple embeded REST API
+- Simple and flexible optional embedded REST API
+- Simple key-value database interface
+- Lightweight embedded database
+- Store sensor data inside a sensor database
 - Memory Mapped Append-only Vector backing storage
 - Bring your own database or API implementation
 
@@ -29,7 +32,7 @@ Add the following to your dependencies in Cargo.toml
 ```toml
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
-rapiddb = "0.1.5"
+rapiddb = "0.1.6"
 ```
 
 Paste the following to your main.rs
@@ -70,7 +73,7 @@ curl localhost:3030/api/v0/test-0
 ```
 
 ### Explore and customize the database
-The database is highly custimizable, if you use the database inside your cargo project. You can interact with the `db` object, and explore the `IDatabase` interface. You can also use `warp::Filter` to extend the API. You can also implement the `IDatabase` interface yourself, for your own database.
+The database is highly customizable, if you use the database inside your cargo project. You can interact with the `db` object, and explore the `IDatabase` interface. You can also use `warp::Filter` to extend the API. You can also implement the `IDatabase` interface yourself, for your own database.
 Explore the docs to learn more, or look at the examples below, or inside the repo.
 
 ## Examples
@@ -89,7 +92,7 @@ db.write().unwrap().post("test-0", value);
 assert_eq!(db.write().unwrap().get_latest("test-0"), value);
 ```
 
-Extending the functionallity of the REST API with custom endpoints using warp Filters and custom aggregates
+Extending the functionality of the REST API with custom endpoints using warp Filters and custom aggregates
 ```rust
 use std::{
   collections::HashMap,
