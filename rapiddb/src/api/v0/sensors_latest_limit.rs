@@ -6,9 +6,8 @@ use warp::{Filter, Rejection, Reply};
 pub fn get(
   db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-  warp::path!("api" / "v0" / "sensors" / "latest" / usize)
-    .and(warp::get())
-    .map(move |limit| {
+  warp::path!("api" / "v0" / "sensors" / "latest" / usize).and(warp::get()).map(
+    move |limit| {
       let mut lock = db.write().unwrap();
       let data = lock.get_all_latest_with_limit(limit);
 
@@ -18,10 +17,8 @@ pub fn get(
         for (key, value_arr) in data {
           result += &format!("\"{key}\":[");
           for value in value_arr {
-            result += &format!(
-              "{},",
-              std::str::from_utf8(&value).unwrap_or_default()
-            );
+            result +=
+              &format!("{},", std::str::from_utf8(&value).unwrap_or_default());
           }
           result.pop();
           result += "],";
@@ -37,7 +34,8 @@ pub fn get(
       warp::hyper::Response::builder()
         .status(warp::http::StatusCode::NOT_FOUND)
         .body(Default::default())
-    })
+    },
+  )
 }
 
 #[tokio::test]
@@ -61,10 +59,9 @@ async fn test_get() {
       .await;
     assert_eq!(resp.status(), 404);
 
-    db.write().unwrap().post(
-      &id,
-      serde_json::json!({ "id": &id }).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id, serde_json::json!({ "id": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -84,10 +81,9 @@ async fn test_get() {
       .await;
     assert_eq!(resp.status(), 404);
 
-    db.write().unwrap().post(
-      &id,
-      serde_json::json!({ "id1": &id }).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id, serde_json::json!({ "id1": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -117,10 +113,9 @@ async fn test_get() {
     );
 
     for _ in 0..8 {
-      db.write().unwrap().post(
-        &id0,
-        serde_json::json!({ "id2": &id }).to_string().as_bytes(),
-      );
+      db.write()
+        .unwrap()
+        .post(&id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     let resp = warp::test::request()
@@ -160,17 +155,15 @@ async fn test_get() {
     );
 
     for _ in 0..8 {
-      db.write().unwrap().post(
-        &id0,
-        serde_json::json!({ "id2": &id }).to_string().as_bytes(),
-      );
+      db.write()
+        .unwrap()
+        .post(&id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     for _ in 0..7 {
-      db.write().unwrap().post(
-        &id,
-        serde_json::json!({ "id2": &id }).to_string().as_bytes(),
-      );
+      db.write()
+        .unwrap()
+        .post(&id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     let resp = warp::test::request()
@@ -209,10 +202,9 @@ async fn test_get() {
       19
     );
 
-    db.write().unwrap().post(
-      &id,
-      serde_json::json!({ "id2": &id }).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -251,17 +243,15 @@ async fn test_get() {
     );
 
     for _ in 0..8 {
-      db.write().unwrap().post(
-        &id,
-        serde_json::json!({ "id2": &id }).to_string().as_bytes(),
-      );
+      db.write()
+        .unwrap()
+        .post(&id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     for _ in 0..8 {
-      db.write().unwrap().post(
-        &id0,
-        serde_json::json!({ "id2": &id }).to_string().as_bytes(),
-      );
+      db.write()
+        .unwrap()
+        .post(&id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     let resp = warp::test::request()
@@ -302,10 +292,7 @@ async fn test_get() {
 
     db.write().unwrap().post_meta(
       &id1,
-      serde_json::json!({ "id1": &id1 })
-        .to_string()
-        .as_bytes()
-        .to_vec(),
+      serde_json::json!({ "id1": &id1 }).to_string().as_bytes().to_vec(),
     );
     let resp = warp::test::request()
       .method("GET")

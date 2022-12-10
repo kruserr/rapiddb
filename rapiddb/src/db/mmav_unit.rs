@@ -37,11 +37,7 @@ impl MMAVUnit {
   /// unit.push(data).unwrap_or_default();
   /// assert_eq!(unit.last(), data);
   /// ```
-  pub fn new(
-    file_name: &str,
-    size: usize,
-    data_start_index: usize,
-  ) -> Self {
+  pub fn new(file_name: &str, size: usize, data_start_index: usize) -> Self {
     let file_did_exist = std::path::Path::new(file_name).exists();
 
     let file = std::fs::OpenOptions::new()
@@ -51,10 +47,8 @@ impl MMAVUnit {
       .open(file_name)
       .unwrap_or_else(|error| {
         if error.kind() == std::io::ErrorKind::NotFound {
-          std::fs::create_dir(
-            file_name.split('/').collect::<Vec<_>>()[0],
-          )
-          .unwrap_or_default();
+          std::fs::create_dir(file_name.split('/').collect::<Vec<_>>()[0])
+            .unwrap_or_default();
         }
 
         std::fs::OpenOptions::new()
@@ -72,8 +66,7 @@ impl MMAVUnit {
 
     let mut seek = data_start_index;
     if file_did_exist {
-      seek =
-        u32::from_ne_bytes(mmap[0..4].try_into().unwrap()) as usize;
+      seek = u32::from_ne_bytes(mmap[0..4].try_into().unwrap()) as usize;
 
       if seek > mmap.len() {
         panic!(
@@ -86,8 +79,7 @@ impl MMAVUnit {
 
     let mut seek_index = 8;
     if file_did_exist {
-      seek_index =
-        u32::from_ne_bytes(mmap[4..8].try_into().unwrap()) as usize;
+      seek_index = u32::from_ne_bytes(mmap[4..8].try_into().unwrap()) as usize;
 
       if seek_index > data_start_index {
         panic!("seek_index must be between 8 and {}", data_start_index);
@@ -117,8 +109,7 @@ impl MMAVUnit {
       .clone_from_slice(&(end as u32).to_ne_bytes());
 
     self.seek_index += 8;
-    self.mmap[4..8]
-      .clone_from_slice(&(self.seek_index as u32).to_ne_bytes());
+    self.mmap[4..8].clone_from_slice(&(self.seek_index as u32).to_ne_bytes());
 
     self.seek = end;
     self.mmap[0..4].clone_from_slice(&(self.seek as u32).to_ne_bytes());
@@ -149,8 +140,7 @@ impl MMAVUnit {
       return Err(MMAVError::FileFull);
     }
 
-    self.mmap[self.seek..self.seek + value.len()]
-      .clone_from_slice(value);
+    self.mmap[self.seek..self.seek + value.len()].clone_from_slice(value);
     self.set_seek(value.len());
 
     Ok(())
@@ -189,11 +179,9 @@ impl MMAVUnit {
     let i = 8 * index + 8;
 
     let start =
-      u32::from_ne_bytes(self.mmap[i..i + 4].try_into().unwrap())
-        as usize;
+      u32::from_ne_bytes(self.mmap[i..i + 4].try_into().unwrap()) as usize;
     let end =
-      u32::from_ne_bytes(self.mmap[i + 4..i + 8].try_into().unwrap())
-        as usize;
+      u32::from_ne_bytes(self.mmap[i + 4..i + 8].try_into().unwrap()) as usize;
 
     if start < self.data_start_index || start > self.mmap.len() {
       return Err(MMAVError::IndexOutOfRange);

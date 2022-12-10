@@ -1,6 +1,5 @@
 #!/bin/bash
 
-rm_container_name="rapiddb-bench-rm"
 mmav_container_name="rapiddb-bench-mmav"
 
 fn_test() {
@@ -41,7 +40,6 @@ for i in {0..39}
 do
     for j in 0 5 50 95 100
     do
-        fn_test $rm_container_name $i $j 4 400
         fn_test $mmav_container_name $i $j 4 400
     done
 done

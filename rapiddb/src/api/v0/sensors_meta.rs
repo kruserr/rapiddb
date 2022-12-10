@@ -37,9 +37,8 @@ pub fn get(
 
 #[tokio::test]
 async fn test_get() {
-  let database_test_factory = crate::db::DatabaseTestFactory::new(
-    ".temp/test/sensors_meta/test_get",
-  );
+  let database_test_factory =
+    crate::db::DatabaseTestFactory::new(".temp/test/sensors_meta/test_get");
 
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());
@@ -72,10 +71,7 @@ async fn test_get() {
 
     db.write().unwrap().post_meta(
       &id0,
-      serde_json::json!({ "id0": &id0 })
-        .to_string()
-        .as_bytes()
-        .to_vec(),
+      serde_json::json!({ "id0": &id0 }).to_string().as_bytes().to_vec(),
     );
 
     let resp = warp::test::request()

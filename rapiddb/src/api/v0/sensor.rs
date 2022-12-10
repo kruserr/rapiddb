@@ -67,10 +67,9 @@ async fn test_get() {
       .await;
     assert_eq!(resp.status(), 404);
 
-    db.write().unwrap().post(
-      &id,
-      serde_json::json!({ "id": &id }).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id, serde_json::json!({ "id": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")

@@ -17,9 +17,5 @@ name = "init"
 path = "init.rs"
 
 [[example]]
-name = "bench-rm"
-path = "bench-rm.rs"
-
-[[example]]
 name = "bench-mmav"
 path = "bench-mmav.rs"

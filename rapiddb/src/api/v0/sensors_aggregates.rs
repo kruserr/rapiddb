@@ -6,9 +6,8 @@ use warp::{Filter, Rejection, Reply};
 pub fn get(
   db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-  warp::path!("api" / "v0" / "sensors" / "aggregates")
-    .and(warp::get())
-    .map(move || {
+  warp::path!("api" / "v0" / "sensors" / "aggregates").and(warp::get()).map(
+    move || {
       let lock = db.read().unwrap();
       let data = lock.get_all_aggregates();
 
@@ -32,7 +31,8 @@ pub fn get(
       warp::hyper::Response::builder()
         .status(warp::http::StatusCode::NOT_FOUND)
         .body("".to_owned())
-    })
+    },
+  )
 }
 
 #[tokio::test]
@@ -54,10 +54,9 @@ async fn test_get() {
       .await;
     assert_eq!(resp.status(), 404);
 
-    db.write().unwrap().post(
-      &id,
-      serde_json::json!({"temp": 8.00}).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id, serde_json::json!({"temp": 8.00}).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -71,10 +70,9 @@ async fn test_get() {
       serde_json::json!({id: {"temp_avg": 8.0, "temp_sum": 8.0, "temp_sum_count": 1.0}})
     );
 
-    db.write().unwrap().post(
-      &id0,
-      serde_json::json!({"temp": 4.00}).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id0, serde_json::json!({"temp": 4.00}).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")

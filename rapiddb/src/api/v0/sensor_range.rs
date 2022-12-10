@@ -6,9 +6,8 @@ use warp::{Filter, Rejection, Reply};
 pub fn get(
   db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-  warp::path!("api" / "v0" / String / usize / usize)
-    .and(warp::get())
-    .map(move |id: String, start: usize, end: usize| {
+  warp::path!("api" / "v0" / String / usize / usize).and(warp::get()).map(
+    move |id: String, start: usize, end: usize| {
       let mut lock = db.write().unwrap();
       let data = lock.get_range(&id, start, end);
 
@@ -16,10 +15,8 @@ pub fn get(
         let mut result: String = Default::default();
         result += "[";
         for item in data {
-          result += &format!(
-            "{},",
-            std::str::from_utf8(&item).unwrap_or_default()
-          );
+          result +=
+            &format!("{},", std::str::from_utf8(&item).unwrap_or_default());
         }
         result.pop();
         result += "]";
@@ -32,14 +29,14 @@ pub fn get(
       warp::hyper::Response::builder()
         .status(warp::http::StatusCode::NOT_FOUND)
         .body(Default::default())
-    })
+    },
+  )
 }
 
 #[tokio::test]
 async fn test_get() {
-  let database_test_factory = crate::db::DatabaseTestFactory::new(
-    ".temp/test/sensor_range/test_get",
-  );
+  let database_test_factory =
+    crate::db::DatabaseTestFactory::new(".temp/test/sensor_range/test_get");
 
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());
@@ -54,10 +51,9 @@ async fn test_get() {
       .await;
     assert_eq!(resp.status(), 404);
 
-    db.write().unwrap().post(
-      &id,
-      serde_json::json!({ "id": &id }).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id, serde_json::json!({ "id": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -100,10 +96,9 @@ async fn test_get() {
     assert_eq!(resp.status(), 404);
 
     for _ in 0..n - 1 {
-      db.write().unwrap().post(
-        &id,
-        serde_json::json!({ "id0": &id }).to_string().as_bytes(),
-      );
+      db.write()
+        .unwrap()
+        .post(&id, serde_json::json!({ "id0": &id }).to_string().as_bytes());
     }
 
     let resp = warp::test::request()

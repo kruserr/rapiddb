@@ -41,9 +41,8 @@ pub fn get(
 
 #[tokio::test]
 async fn test_get() {
-  let database_test_factory = crate::db::DatabaseTestFactory::new(
-    ".temp/test/sensors_latest/test_get",
-  );
+  let database_test_factory =
+    crate::db::DatabaseTestFactory::new(".temp/test/sensors_latest/test_get");
 
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());
@@ -60,10 +59,9 @@ async fn test_get() {
       .await;
     assert_eq!(resp.status(), 404);
 
-    db.write().unwrap().post(
-      &id,
-      serde_json::json!({ "id": &id }).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id, serde_json::json!({ "id": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -76,10 +74,9 @@ async fn test_get() {
       serde_json::json!({id: { "id": &id }})
     );
 
-    db.write().unwrap().post(
-      &id,
-      serde_json::json!({ "id1": &id }).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id, serde_json::json!({ "id1": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -92,10 +89,9 @@ async fn test_get() {
       serde_json::json!({id: { "id1": &id }})
     );
 
-    db.write().unwrap().post(
-      &id0,
-      serde_json::json!({ "id2": &id2 }).to_string().as_bytes(),
-    );
+    db.write()
+      .unwrap()
+      .post(&id0, serde_json::json!({ "id2": &id2 }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -114,10 +110,7 @@ async fn test_get() {
 
     db.write().unwrap().post_meta(
       &id1,
-      serde_json::json!({ "id1": &id1 })
-        .to_string()
-        .as_bytes()
-        .to_vec(),
+      serde_json::json!({ "id1": &id1 }).to_string().as_bytes().to_vec(),
     );
     let resp = warp::test::request()
       .method("GET")

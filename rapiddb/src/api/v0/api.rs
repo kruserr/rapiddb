@@ -1,8 +1,7 @@
 use warp::{Filter, Rejection, Reply};
 
 /// GET /api/v0
-pub fn get(
-) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
+pub fn get() -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   warp::path!("api" / "v0")
     .and(warp::get())
     .map(|| {
@@ -24,11 +23,8 @@ async fn test_get() {
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());
 
-    let resp = warp::test::request()
-      .method("GET")
-      .path("/api/v0")
-      .reply(&api)
-      .await;
+    let resp =
+      warp::test::request().method("GET").path("/api/v0").reply(&api).await;
     assert_eq!(resp.status(), 200);
   }
 }
