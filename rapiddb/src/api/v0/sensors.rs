@@ -1,8 +1,7 @@
 use warp::{Filter, Rejection, Reply};
 
 /// GET /api/v0/sensors
-pub fn get(
-) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
+pub fn get() -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   warp::path("api")
     .and(warp::path("v0"))
     .and(warp::path("sensors"))

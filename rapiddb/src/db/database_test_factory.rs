@@ -77,17 +77,15 @@ impl DatabaseTestFactory {
 
             let mut temp_sum =
               aggregate_obj["temp_sum"].as_f64().unwrap_or_default();
-            let mut temp_sum_count = aggregate_obj["temp_sum_count"]
-              .as_f64()
-              .unwrap_or_default();
+            let mut temp_sum_count =
+              aggregate_obj["temp_sum_count"].as_f64().unwrap_or_default();
 
             temp_sum += obj["temp"].as_f64().unwrap_or_default();
             temp_sum_count += 1.;
             let temp_avg = temp_sum / temp_sum_count;
 
             aggregate_obj["temp_sum"] = serde_json::json!(temp_sum);
-            aggregate_obj["temp_sum_count"] =
-              serde_json::json!(temp_sum_count);
+            aggregate_obj["temp_sum_count"] = serde_json::json!(temp_sum_count);
             aggregate_obj["temp_avg"] = serde_json::json!(temp_avg);
 
             *x = aggregate_obj.to_string().as_bytes().to_vec();
@@ -102,12 +100,10 @@ impl DatabaseTestFactory {
     let mmav_db_path = format!("{db_path}_mmav");
     databases.insert(
       mmav_db_path.clone(),
-      std::sync::Arc::new(std::sync::RwLock::new(
-        MMAVDatabase::new_with_all(
-          &mmav_db_path,
-          aggregates_fn.clone(),
-        ),
-      )),
+      std::sync::Arc::new(std::sync::RwLock::new(MMAVDatabase::new_with_all(
+        &mmav_db_path,
+        aggregates_fn.clone(),
+      ))),
     );
 
     Self { db_path: db_path.to_string(), databases }

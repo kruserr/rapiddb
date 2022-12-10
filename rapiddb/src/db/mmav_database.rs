@@ -101,8 +101,7 @@ impl MMAVDatabase {
         .unwrap_or_default()
         .parse::<String>()
         .map(|x| {
-          sensors
-            .insert(x.clone(), MMAV::new(&format!("{db_path}/{x}")));
+          sensors.insert(x.clone(), MMAV::new(&format!("{db_path}/{x}")));
 
           let mut data = vec![];
           let file_name = format!("{db_path}/{x}/meta");
@@ -171,10 +170,9 @@ impl IDatabase for MMAVDatabase {
 
   fn post(&mut self, id: &str, value: &[u8]) {
     if !self.contains(id) {
-      self.sensors.insert(
-        id.to_owned(),
-        MMAV::new(&format!("{}/{id}", self.db_path)),
-      );
+      self
+        .sensors
+        .insert(id.to_owned(), MMAV::new(&format!("{}/{id}", self.db_path)));
     }
 
     if !self.aggregates.contains_key(id) {
@@ -208,10 +206,9 @@ impl IDatabase for MMAVDatabase {
 
   fn post_meta(&mut self, id: &str, data: Vec<u8>) {
     if !self.contains(id) {
-      self.sensors.insert(
-        id.to_owned(),
-        MMAV::new(&format!("{}/{id}", self.db_path)),
-      );
+      self
+        .sensors
+        .insert(id.to_owned(), MMAV::new(&format!("{}/{id}", self.db_path)));
     }
 
     let file_name = format!("{}/{id}/meta", self.db_path);
@@ -263,11 +260,7 @@ impl IDatabase for MMAVDatabase {
     self.sensors.get(id).unwrap().last()
   }
 
-  fn get_latest_with_limit(
-    &mut self,
-    id: &str,
-    limit: usize,
-  ) -> Vec<Vec<u8>> {
+  fn get_latest_with_limit(&mut self, id: &str, limit: usize) -> Vec<Vec<u8>> {
     if !self.contains(id) {
       return Default::default();
     }
@@ -275,12 +268,7 @@ impl IDatabase for MMAVDatabase {
     self.sensors.get_mut(id).unwrap().last_limit(limit)
   }
 
-  fn get_range(
-    &mut self,
-    id: &str,
-    start: usize,
-    end: usize,
-  ) -> Vec<Vec<u8>> {
+  fn get_range(&mut self, id: &str, start: usize, end: usize) -> Vec<Vec<u8>> {
     if !self.contains(id) {
       return Default::default();
     }
@@ -288,9 +276,7 @@ impl IDatabase for MMAVDatabase {
     self.sensors.get_mut(id).unwrap().range(start, end)
   }
 
-  fn get_all_meta(
-    &mut self,
-  ) -> std::collections::HashMap<&str, Vec<u8>> {
+  fn get_all_meta(&mut self) -> std::collections::HashMap<&str, Vec<u8>> {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 
@@ -301,9 +287,7 @@ impl IDatabase for MMAVDatabase {
     result
   }
 
-  fn get_all_aggregates(
-    &self,
-  ) -> std::collections::HashMap<&str, Vec<u8>> {
+  fn get_all_aggregates(&self) -> std::collections::HashMap<&str, Vec<u8>> {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 
@@ -314,9 +298,7 @@ impl IDatabase for MMAVDatabase {
     result
   }
 
-  fn get_all_latest(
-    &mut self,
-  ) -> std::collections::HashMap<&str, Vec<u8>> {
+  fn get_all_latest(&mut self) -> std::collections::HashMap<&str, Vec<u8>> {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 

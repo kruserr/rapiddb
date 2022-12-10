@@ -148,8 +148,7 @@ impl MMAV {
       return unit_map[&index].len();
     }
 
-    let unit =
-      MMAVUnit::new(&format!("{id}/{index}"), size, data_start_index);
+    let unit = MMAVUnit::new(&format!("{id}/{index}"), size, data_start_index);
     let result = unit.len();
 
     unit_map.insert(index, unit);
@@ -230,12 +229,8 @@ impl MMAV {
   /// assert_eq!(mmav.last(), data);
   /// ```
   pub fn push(&mut self, value: &[u8]) {
-    self
-      .unit_map
-      .get_mut(&self.index)
-      .unwrap()
-      .push(value)
-      .unwrap_or_else(|error| match error {
+    self.unit_map.get_mut(&self.index).unwrap().push(value).unwrap_or_else(
+      |error| match error {
         MMAVError::ArrayFull => {
           self.expand();
           self.push(value);
@@ -245,7 +240,8 @@ impl MMAV {
           self.push(value);
         }
         _ => (),
-      });
+      },
+    );
   }
 
   /// Get `value` at `index` immutably

@@ -33,9 +33,7 @@ pub fn post(
     .and(warp::body::content_length_limit(1024 * 16))
     .and(warp::body::json())
     .map(move |id: String, data: serde_json::Value| {
-      db.write()
-        .unwrap()
-        .post_meta(&id, data.to_string().as_bytes().to_vec());
+      db.write().unwrap().post_meta(&id, data.to_string().as_bytes().to_vec());
 
       warp::hyper::Response::builder()
         .status(warp::http::StatusCode::ACCEPTED)
@@ -45,9 +43,8 @@ pub fn post(
 
 #[tokio::test]
 async fn test_get() {
-  let database_test_factory = crate::db::DatabaseTestFactory::new(
-    ".temp/test/sensor_meta/test_get",
-  );
+  let database_test_factory =
+    crate::db::DatabaseTestFactory::new(".temp/test/sensor_meta/test_get");
 
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());
@@ -97,9 +94,8 @@ async fn test_get() {
 
 #[tokio::test]
 async fn test_post() {
-  let database_test_factory = crate::db::DatabaseTestFactory::new(
-    ".temp/test/sensor_meta/test_post",
-  );
+  let database_test_factory =
+    crate::db::DatabaseTestFactory::new(".temp/test/sensor_meta/test_post");
 
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());
