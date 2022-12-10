@@ -3,11 +3,7 @@ use std::sync::Arc;
 use std::sync::Mutex;
 
 use crate::db::MMAVDatabase;
-use crate::db::RedisMysqlDatabase;
 use crate::traits::IDatabase;
-
-static REDIS_COUNTER: std::sync::atomic::AtomicUsize =
-  std::sync::atomic::AtomicUsize::new(1);
 
 /// Database test factory, stores a hashmap with all databases for
 /// testing
@@ -113,27 +109,6 @@ impl DatabaseTestFactory {
         ),
       )),
     );
-
-    std::env::var("TEST_RM")
-      .map(|var| {
-        if var != "true" {
-          return;
-        }
-
-        let rm_db_path = format!("{db_path}_rm");
-        databases.insert(
-          rm_db_path,
-          std::sync::Arc::new(std::sync::RwLock::new(
-            RedisMysqlDatabase::new_with_all(
-              &REDIS_COUNTER
-                .fetch_add(1, std::sync::atomic::Ordering::SeqCst)
-                .to_string(),
-              aggregates_fn,
-            ),
-          )),
-        );
-      })
-      .err();
 
     Self { db_path: db_path.to_string(), databases }
   }
