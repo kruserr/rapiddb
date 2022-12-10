@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.9] - 2022-12-10
+
+### Documentation
+
+- Use less specific rapiddb version
+
 ## [0.1.8] - 2022-12-10
 
 ### Ci
