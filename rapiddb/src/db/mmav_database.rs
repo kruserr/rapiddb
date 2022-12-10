@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 use std::io::{Read, Write};
-use std::sync::{Arc, Mutex};
 
 use crate::db::mmav::MMAV;
 use crate::traits::IDatabase;
+use crate::types::AggregateFn;
 
 /// Memory Mapped Append-only Vector Database
 ///
@@ -34,10 +34,7 @@ pub struct MMAVDatabase {
     String,
     std::sync::Arc<std::sync::Mutex<Vec<u8>>>,
   >,
-  aggregates_fn: HashMap<
-    String,
-    Arc<Mutex<dyn Fn(&str, &[u8], &Arc<Mutex<Vec<u8>>>) + Send>>,
-  >,
+  aggregates_fn: HashMap<String, AggregateFn>,
 }
 impl MMAVDatabase {
   /// Memory Mapped Append-only Vector Database Constructor
@@ -78,10 +75,7 @@ impl MMAVDatabase {
   /// ```
   pub fn new_with_all(
     db_path: &str,
-    aggregates_fn: HashMap<
-      String,
-      Arc<Mutex<dyn Fn(&str, &[u8], &Arc<Mutex<Vec<u8>>>) + Send>>,
-    >,
+    aggregates_fn: HashMap<String, AggregateFn>,
   ) -> Self {
     let mut sensors: std::collections::HashMap<String, MMAV> =
       Default::default();
@@ -184,11 +178,11 @@ impl IDatabase for MMAVDatabase {
       );
     }
 
-    self.aggregates.get(id).map(|aggregate| {
-      self.aggregates_fn.get(id).map(|x| {
+    if let Some(aggregate) = self.aggregates.get(id) {
+      if let Some(x) = self.aggregates_fn.get(id) {
         x.lock().map(|f| f(id, value, aggregate)).err();
-      });
-    });
+      }
+    }
 
     self.sensors.get_mut(id).unwrap().push(value);
   }

@@ -191,7 +191,7 @@ impl MMAVUnit {
       return Err(MMAVError::IndexOutOfRange);
     }
 
-    Ok((&self.mmap[start..end]).to_vec())
+    Ok((self.mmap[start..end]).to_vec())
   }
 
   /// Get last item in vector

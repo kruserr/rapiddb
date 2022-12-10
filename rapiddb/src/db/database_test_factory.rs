@@ -4,6 +4,7 @@ use std::sync::Mutex;
 
 use crate::db::MMAVDatabase;
 use crate::traits::IDatabase;
+use crate::types::AggregateFn;
 
 /// Database test factory, stores a hashmap with all databases for
 /// testing
@@ -54,10 +55,10 @@ impl DatabaseTestFactory {
       std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
     > = Default::default();
 
-    let mut aggregates_fn: HashMap<
-      String,
-      Arc<Mutex<dyn Fn(&str, &[u8], &Arc<Mutex<Vec<u8>>>) + Send>>,
-    > = Default::default();
+    // type AggregateFn = Arc<Mutex<dyn Fn(&str, &[u8], &Arc<Mutex<Vec<u8>>>) +
+    // Send>>;
+
+    let mut aggregates_fn: HashMap<String, AggregateFn> = Default::default();
 
     let test_fn = Arc::new(Mutex::new(
       |_: &str, value: &[u8], aggregate: &Arc<Mutex<Vec<u8>>>| {
