@@ -14,7 +14,7 @@ if [ -n "$1" ]; then
 
       git add -A && git commit -m "chore(release): prepare for $2"
 
-      git tag -s -a "$2" -m "# Release $2" -m "$changelog"
+      git tag -a "$2" -m "# Release $2" -m "$changelog"
 	    git tag -v "$2"
     else
       echo "warn: please provide a tag"
@@ -30,7 +30,7 @@ if [ -n "$1" ]; then
 
     git add -A && git commit -m "chore(release): prepare for $1"
 
-    git tag -s -a "$1" -m "# Release $1" -m "$changelog"
+    git tag -a "$1" -m "# Release $1" -m "$changelog"
     git tag -v "$1"
   fi
 else
