@@ -22,7 +22,6 @@ if [ -n "$1" ]; then
       # changelog=$(git-cliff --config git-cliff-detailed.toml --tag "$2" --strip all)
 
       git add -A && git commit -m "chore(release): prepare for $2"
-      git show
 
       git fetch --all --tags
       git tag -a "$2" -m "# Release $2" -m "$changelog"
@@ -49,7 +48,6 @@ if [ -n "$1" ]; then
     # changelog=$(git-cliff --config git-cliff-detailed.toml --tag "$1" --strip all)
     
     git add -A && git commit -m "chore(release): prepare for $1"
-    git show
 
     git fetch --all --tags
     git tag -a "$1" -m "# Release $1" -m "$changelog"
