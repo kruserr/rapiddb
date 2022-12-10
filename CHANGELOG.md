@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.8] - 2022-12-10
+
+### Ci
+
+- Remove git show
+- Rename to publish and use cargo publish
+
 ## [0.1.7] - 2022-12-10
 
 ### Bug Fixes
