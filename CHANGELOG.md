@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.10] - 2022-12-10
+
+### Refactor
+
+- Fix clippy warnings
+
+### Ci
+
+- Run dependabot on rapiddb workspace
+- Run lint
+- Typo
+
 ## [0.1.9] - 2022-12-10
 
 ### Documentation
