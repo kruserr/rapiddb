@@ -2,5 +2,4 @@
 
 git push --follow-tags
 
-cd rapiddb
-cargo publish
+#cargo publish -p rapiddb
