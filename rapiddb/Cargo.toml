@@ -1,6 +1,6 @@
 [package]
 name = "rapiddb"
-version = "0.1.12" # managed by release.sh
+version = "0.1.13" # managed by release.sh
 edition = "2021"
 default-run = "rapiddb"
 license = "AGPL-3.0"
