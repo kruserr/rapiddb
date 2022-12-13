@@ -8,7 +8,7 @@ if [ -n "$1" ]; then
       msg="# managed by release.sh"
       sed "s/^version = .* $msg$/version = \"${2#v}\" $msg/" -i rapiddb/Cargo.toml
 
-      cargo check
+      cargo build
       
       git-cliff --tag "$2" > CHANGELOG.md
 
