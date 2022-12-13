@@ -9,8 +9,28 @@ on:
       - main
 
 jobs:
+  rustfmt:
+    name: Formatting
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Install toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          components: rustfmt
+          override: true
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Check the formatting
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
   check:
     name: Check
+    needs: rustfmt
     runs-on: ubuntu-22.04
     steps:
       - name: Install toolchain
@@ -29,6 +49,7 @@ jobs:
 
   test:
     name: Test
+    needs: rustfmt
     runs-on: ubuntu-22.04
     steps:
       - name: Install toolchain
@@ -67,6 +88,7 @@ jobs:
 
   clippy:
     name: Lint
+    needs: rustfmt
     runs-on: ubuntu-22.04
     steps:
       - name: Install toolchain
@@ -83,22 +105,3 @@ jobs:
         with:
           command: clippy
           args: --tests -- -D warnings
-
-  rustfmt:
-    name: Formatting
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          components: rustfmt
-          override: true
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Check the formatting
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
