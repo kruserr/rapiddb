@@ -54,7 +54,7 @@ async fn test_get() {
     assert_eq!(resp.status(), 404);
 
     db.write().unwrap().post_meta(
-      &id,
+      id,
       serde_json::json!({ "id": &id }).to_string().as_bytes().to_vec(),
     );
 
@@ -70,7 +70,7 @@ async fn test_get() {
     );
 
     db.write().unwrap().post_meta(
-      &id0,
+      id0,
       serde_json::json!({ "id0": &id0 }).to_string().as_bytes().to_vec(),
     );
 

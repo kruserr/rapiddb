@@ -44,7 +44,7 @@ async fn test_get() {
 
     db.write()
       .unwrap()
-      .post(&id, serde_json::json!({"temp": 8.00}).to_string().as_bytes());
+      .post(id, serde_json::json!({"temp": 8.00}).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -59,7 +59,7 @@ async fn test_get() {
 
     db.write()
       .unwrap()
-      .post(&id, serde_json::json!({"temp": 4.00}).to_string().as_bytes());
+      .post(id, serde_json::json!({"temp": 4.00}).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")

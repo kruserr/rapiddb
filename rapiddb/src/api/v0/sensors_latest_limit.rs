@@ -61,7 +61,7 @@ async fn test_get() {
 
     db.write()
       .unwrap()
-      .post(&id, serde_json::json!({ "id": &id }).to_string().as_bytes());
+      .post(id, serde_json::json!({ "id": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -76,14 +76,14 @@ async fn test_get() {
 
     let resp = warp::test::request()
       .method("GET")
-      .path(&format!("/api/v0/sensors/latest/0"))
+      .path("/api/v0/sensors/latest/0")
       .reply(&api)
       .await;
     assert_eq!(resp.status(), 404);
 
     db.write()
       .unwrap()
-      .post(&id, serde_json::json!({ "id1": &id }).to_string().as_bytes());
+      .post(id, serde_json::json!({ "id1": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -115,7 +115,7 @@ async fn test_get() {
     for _ in 0..8 {
       db.write()
         .unwrap()
-        .post(&id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     let resp = warp::test::request()
@@ -157,13 +157,13 @@ async fn test_get() {
     for _ in 0..8 {
       db.write()
         .unwrap()
-        .post(&id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     for _ in 0..7 {
       db.write()
         .unwrap()
-        .post(&id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     let resp = warp::test::request()
@@ -204,7 +204,7 @@ async fn test_get() {
 
     db.write()
       .unwrap()
-      .post(&id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+      .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
 
     let resp = warp::test::request()
       .method("GET")
@@ -245,13 +245,13 @@ async fn test_get() {
     for _ in 0..8 {
       db.write()
         .unwrap()
-        .post(&id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     for _ in 0..8 {
       db.write()
         .unwrap()
-        .post(&id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
     }
 
     let resp = warp::test::request()
@@ -291,7 +291,7 @@ async fn test_get() {
     );
 
     db.write().unwrap().post_meta(
-      &id1,
+      id1,
       serde_json::json!({ "id1": &id1 }).to_string().as_bytes().to_vec(),
     );
     let resp = warp::test::request()
