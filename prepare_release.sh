@@ -20,8 +20,9 @@ if [ -n "$1" ]; then
         - {% if commit.breaking %}(breaking) {% endif %}{{ commit.message | upper_first }} ({{ commit.id | truncate(length=7, end=\"\") }})\
       {% endfor %}
       {% endfor %}"
-      changelog=$(git-cliff --config git-cliff-detailed.toml --unreleased --strip all)
+      # changelog=$(git-cliff --config git-cliff-detailed.toml --unreleased --strip all)
       # changelog=$(git-cliff --config git-cliff-detailed.toml --tag "$2" --strip all)
+      changelog=$(git-cliff --config git-cliff-detailed.toml --tag "$2" --strip all)
 
       git add -A && git commit -m "chore(release): prepare for $2"
 
@@ -48,8 +49,9 @@ if [ -n "$1" ]; then
       - {% if commit.breaking %}(breaking) {% endif %}{{ commit.message | upper_first }} ({{ commit.id | truncate(length=7, end=\"\") }})\
     {% endfor %}
     {% endfor %}"
-    changelog=$(git-cliff --config git-cliff-detailed.toml --unreleased --strip all)
+    # changelog=$(git-cliff --config git-cliff-detailed.toml --unreleased --strip all)
     # changelog=$(git-cliff --config git-cliff-detailed.toml --tag "$1" --strip all)
+    changelog=$(git-cliff --config git-cliff-detailed.toml --tag "$1" --strip all)
     
     git add -A && git commit -m "chore(release): prepare for $1"
 
