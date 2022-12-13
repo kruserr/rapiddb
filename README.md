@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/kruserr/rapiddb">
-    <img width="300" src="assets/rapiddb-logo-opt.svg">
+    <img width="300" src="https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg">
   </a>
   <br>
   <br>
@@ -10,6 +10,9 @@
   <a href="https://crates.io/crates/rapiddb" target="_blank">
     <img src="https://img.shields.io/crates/v/rapiddb?logo=Rust&logoColor=white"/> 
   </a>
+  <!-- <a href="https://hub.docker.com/r/kruserr/rapiddb" target="_blank">
+    <img src="https://img.shields.io/docker/v/kruserr/rapiddb?sort=semver&logo=docker&logoColor=white"/> 
+  </a> -->
   <a href="https://codecov.io/gh/kruserr/rapiddb" target="_blank"> 
     <img src="https://img.shields.io/codecov/c/gh/kruserr/rapiddb?logo=Codecov&logoColor=white"/> 
   </a>
