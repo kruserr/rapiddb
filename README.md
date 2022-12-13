@@ -1,12 +1,17 @@
 <p align="center">
-  <img width="300" src="assets/rapiddb-logo-opt.svg">
-  <br>
-  <br>
-  <a href="https://crates.io/crates/rapiddb" >
-    <img src="https://img.shields.io/crates/v/rapiddb?logo=Rust"/> 
+  <a href="https://github.com/kruserr/rapiddb">
+    <img width="300" src="assets/rapiddb-logo-opt.svg">
   </a>
-  <a href="https://codecov.io/gh/kruserr/rapiddb" > 
-    <img src="https://codecov.io/gh/kruserr/rapiddb/branch/main/graph/badge.svg?token=HV1S3ULPSG"/> 
+  <br>
+  <br>
+  <a href="https://github.com/kruserr/rapiddb/releases">
+    <img src="https://img.shields.io/github/v/release/kruserr/rapiddb?logo=GitHub&logoColor=white">
+  </a>
+  <a href="https://crates.io/crates/rapiddb" target="_blank">
+    <img src="https://img.shields.io/crates/v/rapiddb?logo=Rust&logoColor=white"/> 
+  </a>
+  <a href="https://codecov.io/gh/kruserr/rapiddb" target="_blank"> 
+    <img src="https://img.shields.io/codecov/c/gh/kruserr/rapiddb?logo=Codecov&logoColor=white"/> 
   </a>
 </p>
 
