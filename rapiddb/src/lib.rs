@@ -10,7 +10,7 @@
 //!   <br>
 //!   <br>
 //!   <a href="https://github.com/kruserr/rapiddb/releases" target="_blank">
-//!     <img src="https://img.shields.io/github/v/release/kruserr/rapiddb?logo=GitHub&logoColor=white">
+//!     <img src="https://img.shields.io/github/v/release/kruserr/rapiddb?sort=semver&logo=GitHub&logoColor=white">
 //!   </a>
 //!   <a href="https://crates.io/crates/rapiddb" target="_blank">
 //!     <img src="https://img.shields.io/crates/v/rapiddb?logo=Rust&logoColor=white"/>
