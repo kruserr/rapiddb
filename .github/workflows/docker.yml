@@ -1,26 +1,40 @@
-name: Docker
+name: docker
 
 on:
   push:
-    # Publish `main` as Docker `latest` image.
-    branches: [ "main" ]
+    # Publish `main` as Docker `latest` image for caching.
+    branches:
+      - main
 
     # Publish `v1.2.3` tags as releases.
     tags:
-      - v*
-
-  # Run tests for any PRs.
-  pull_request:
+      - "v*.*.*"
 
 env:
   IMAGE_NAME: rapiddb
   IMAGE_LATEST: docker.pkg.github.com/kruserr/rapiddb/rapiddb:latest
 
 jobs:
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Check
+      run: cargo check --locked
+    - name: Test
+      run: cargo test
+    - name: Lint
+      run: cargo clippy --tests -- -D warnings
+    - name: Formatting
+      run: cargo fmt --all -- --check
+
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
-    runs-on: ubuntu-latest
+    name: Push image to GitHub Packages
+    needs: ci
+    runs-on: ubuntu-22.04
     if: github.event_name == 'push'
 
     permissions:

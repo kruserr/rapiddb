@@ -1,0 +1,32 @@
+name: cd
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  ci:
+    name: Continuous Integration
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Check
+      run: cargo check --locked
+    - name: Test
+      run: cargo test
+    - name: Lint
+      run: cargo clippy --tests -- -D warnings
+    - name: Formatting
+      run: cargo fmt --all -- --check
+
+  publish-crates-io:
+    name: Publish on crates.io
+    needs: ci
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: publish package to crates.io
+        run: |
+          cargo package
+          cargo publish --token ${{ secrets.CARGO_TOKEN }}
