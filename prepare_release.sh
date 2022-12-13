@@ -7,6 +7,8 @@ if [ -n "$1" ]; then
       # update the Cargo.toml version of the rapiddb workspaces
       msg="# managed by release.sh"
       sed "s/^version = .* $msg$/version = \"${2#v}\" $msg/" -i rapiddb/Cargo.toml
+
+      cargo check
       
       git-cliff --tag "$2" > CHANGELOG.md
 
