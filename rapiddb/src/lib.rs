@@ -1,4 +1,7 @@
-#![doc(html_logo_url = "https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg", html_favicon_url = "https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg")]
+#![doc(
+  html_logo_url = "https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg",
+  html_favicon_url = "https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg"
+)]
 
 //! <p align="center">
 //!   <a href="https://github.com/kruserr/rapiddb" target="_blank">
@@ -10,13 +13,13 @@
 //!     <img src="https://img.shields.io/github/v/release/kruserr/rapiddb?logo=GitHub&logoColor=white">
 //!   </a>
 //!   <a href="https://crates.io/crates/rapiddb" target="_blank">
-//!     <img src="https://img.shields.io/crates/v/rapiddb?logo=Rust&logoColor=white"/> 
+//!     <img src="https://img.shields.io/crates/v/rapiddb?logo=Rust&logoColor=white"/>
 //!   </a>
 //!   <!-- <a href="https://hub.docker.com/r/kruserr/rapiddb" target="_blank">
-//!     <img src="https://img.shields.io/docker/v/kruserr/rapiddb?sort=semver&logo=docker&logoColor=white"/> 
+//!     <img src="https://img.shields.io/docker/v/kruserr/rapiddb?sort=semver&logo=docker&logoColor=white"/>
 //!   </a> -->
-//!   <a href="https://codecov.io/gh/kruserr/rapiddb" target="_blank"> 
-//!     <img src="https://img.shields.io/codecov/c/gh/kruserr/rapiddb?logo=Codecov&logoColor=white"/> 
+//!   <a href="https://codecov.io/gh/kruserr/rapiddb" target="_blank">
+//!     <img src="https://img.shields.io/codecov/c/gh/kruserr/rapiddb?logo=Codecov&logoColor=white"/>
 //!   </a>
 //! </p>
 //!
