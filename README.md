@@ -1,10 +1,10 @@
 <p align="center">
-  <a href="https://github.com/kruserr/rapiddb">
+  <a href="https://github.com/kruserr/rapiddb" target="_blank">
     <img width="300" src="https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg">
   </a>
   <br>
   <br>
-  <a href="https://github.com/kruserr/rapiddb/releases">
+  <a href="https://github.com/kruserr/rapiddb/releases" target="_blank">
     <img src="https://img.shields.io/github/v/release/kruserr/rapiddb?logo=GitHub&logoColor=white">
   </a>
   <a href="https://crates.io/crates/rapiddb" target="_blank">
