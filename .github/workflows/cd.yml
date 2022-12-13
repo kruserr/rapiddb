@@ -26,7 +26,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - name: publish package to crates.io
+      - name: publish
         run: |
-          cargo package
-          cargo publish --token ${{ secrets.CARGO_TOKEN }}
+          cargo publish -p rapiddb --token ${{ secrets.CARGO_TOKEN }}
