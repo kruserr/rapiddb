@@ -2,60 +2,6 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.12] - 2022-12-13
-
-### Documentation
-
-- Remoev duplicate entry in changelog
-
-### Ci
-
-- Dont cargo publish here
-- Bump rapiddb version
-- Run caro check after bumping version
-- Publish monorepo rapiddb
-- Run cargo build after vesion bump
-- Run cargo check both places
-
-## [0.1.11] - 2022-12-13
-
-### Documentation
-
-- Add logo
-- #4: add test coverage, cargo link and logo
-- Add releases and backlinks to github
-- Update logo path and name and add favicon
-- Change to use github hosted image and add img shield for docker hub for future docker hub deployment
-- #4: add test coverage shield for crates.io and project banner to readme
-- Open links in new tab
-- Use github release latest semver for img shield
-
-### Refactor
-
-- Clippy fix
-
-### Styling
-
-- Fmt
-
-### Ci
-
-- #4: add Cargo.lock to .gitignore
-- #4: update ci / cd pipelines
-- Run fmt first and fail all if fmt fails
-
-## [0.1.10] - 2022-12-10
-
-### Refactor
-
-- Fix clippy warnings
-
-### Ci
-
-- Run dependabot on rapiddb workspace
-- Run lint
-- Typo
-
 ## [0.1.9] - 2022-12-10
 
 ### Documentation

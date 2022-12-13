@@ -20,7 +20,7 @@ if [ -n "$1" ]; then
         - {% if commit.breaking %}(breaking) {% endif %}{{ commit.message | upper_first }} ({{ commit.id | truncate(length=7, end=\"\") }})\
       {% endfor %}
       {% endfor %}"
-      changelog=$(git-cliff --config git-cliff-detailed.toml --tag "$2" --strip all)
+      changelog=$(git-cliff --config git-cliff-detailed.toml --unreleased --strip all)
 
       git add -A && git commit -m "chore(release): prepare for $2"
 
@@ -37,7 +37,7 @@ if [ -n "$1" ]; then
 
     cargo check
     
-    git-cliff --unreleased --prepend CHANGELOG.md
+    git-cliff --unreleased --tag "$1" --prepend CHANGELOG.md
 
     # generate a changelog for the tag message
     export GIT_CLIFF_TEMPLATE="\
