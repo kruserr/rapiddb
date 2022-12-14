@@ -114,8 +114,8 @@ async fn test_post() {
     assert_eq!(resp.status(), 202);
     assert_eq!(resp.body().len(), 0);
 
-    let mut lock = db.write().unwrap();
-    let id_db = lock.get_latest(id);
+    let id_db =
+      db.write().map(|mut lock| lock.get_latest(id)).unwrap_or_default();
     assert_eq!(
       id_db,
       serde_json::json!({ "id": &id }).to_string().as_bytes().to_vec()

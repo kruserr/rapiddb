@@ -8,8 +8,8 @@ pub fn get(
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   warp::path!("api" / "v0" / String / usize).and(warp::get()).map(
     move |id: String, rec_id: usize| {
-      let mut lock = db.write().unwrap();
-      let result = lock.get(&id, rec_id);
+      let result =
+        db.write().map(|mut lock| lock.get(&id, rec_id)).unwrap_or_default();
 
       if !result.is_empty() {
         return warp::hyper::Response::builder()

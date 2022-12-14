@@ -59,6 +59,9 @@ impl MMAVDatabase {
 
   /// Memory Mapped Append-only Vector Database Constructor with all
   ///
+  /// ## Panics
+  /// if invalid `db_path` is provided
+  ///
   /// ## Examples
   /// ```no_run
   /// use crate::rapiddb::traits::IDatabase;
@@ -274,7 +277,7 @@ impl IDatabase for MMAVDatabase {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 
-    for (id, value) in self.meta.iter() {
+    for (id, value) in &self.meta {
       result.insert(id, value.clone());
     }
 
@@ -285,7 +288,7 @@ impl IDatabase for MMAVDatabase {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 
-    for (key, value) in self.aggregates.iter() {
+    for (key, value) in &self.aggregates {
       result.insert(key, value.lock().unwrap().clone());
     }
 
@@ -296,7 +299,7 @@ impl IDatabase for MMAVDatabase {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 
-    for (id, sensor) in self.sensors.iter() {
+    for (id, sensor) in &mut self.sensors {
       result.insert(id, sensor.last());
     }
 
@@ -310,7 +313,7 @@ impl IDatabase for MMAVDatabase {
     let mut result: std::collections::HashMap<&str, Vec<Vec<u8>>> =
       Default::default();
 
-    for (id, sensor) in self.sensors.iter_mut() {
+    for (id, sensor) in &mut self.sensors {
       let item = sensor.last_limit(limit);
       if !item.is_empty() {
         result.insert(id, item);

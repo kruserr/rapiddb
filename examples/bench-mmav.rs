@@ -5,10 +5,8 @@ use std::{
 
 #[tokio::main]
 async fn main() {
-  let mut aggregates_fn: HashMap<
-    String,
-    rapiddb::types::AggregateFn,
-  > = Default::default();
+  let mut aggregates_fn: HashMap<String, rapiddb::types::AggregateFn> =
+    Default::default();
 
   let test_fn = Arc::new(Mutex::new(
     |_: &str, value: &[u8], aggregate: &Arc<Mutex<Vec<u8>>>| {

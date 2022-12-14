@@ -66,7 +66,7 @@ impl MMAV {
     }
 
     let mut unit_map = Default::default();
-    let mmav_size = 14580008;
+    let mmav_size = 14_580_008;
     let mmav_data_start_index = 80008;
 
     if let Some(x) = indices.last() {
@@ -334,7 +334,7 @@ impl MMAV {
       return result;
     }
 
-    for i in start..end + 1 {
+    for i in start..=end {
       let item = self._get(i);
 
       if !item.is_empty() {

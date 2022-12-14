@@ -13,8 +13,8 @@ pub fn get_latest_custom(
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   warp::path!("api" / "custom" / String / "latest").and(warp::get()).map(
     move |id: String| {
-      let mut lock = db.write().unwrap();
-      let result = lock.get_latest(&id);
+      let result =
+        db.write().map(|mut lock| lock.get_latest(&id)).unwrap_or_default();
 
       if !result.is_empty() {
         return warp::hyper::Response::builder()
@@ -31,10 +31,8 @@ pub fn get_latest_custom(
 
 #[tokio::main]
 async fn main() {
-  let mut aggregates_fn: HashMap<
-    String,
-    rapiddb::types::AggregateFn,
-  > = Default::default();
+  let mut aggregates_fn: HashMap<String, rapiddb::types::AggregateFn> =
+    Default::default();
 
   let test_fn = Arc::new(Mutex::new(
     |_: &str, value: &[u8], aggregate: &Arc<Mutex<Vec<u8>>>| {

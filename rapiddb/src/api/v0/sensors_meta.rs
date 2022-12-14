@@ -30,7 +30,7 @@ pub fn get(
 
       warp::hyper::Response::builder()
         .status(warp::http::StatusCode::NOT_FOUND)
-        .body("".to_owned())
+        .body(String::new())
     },
   )
 }

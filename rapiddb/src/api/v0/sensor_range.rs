@@ -8,8 +8,10 @@ pub fn get(
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   warp::path!("api" / "v0" / String / usize / usize).and(warp::get()).map(
     move |id: String, start: usize, end: usize| {
-      let mut lock = db.write().unwrap();
-      let data = lock.get_range(&id, start, end);
+      let data = db
+        .write()
+        .map(|mut lock| lock.get_range(&id, start, end))
+        .unwrap_or_default();
 
       if !data.is_empty() {
         let mut result: String = Default::default();

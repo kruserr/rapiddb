@@ -70,8 +70,7 @@ impl MMAVUnit {
 
       if seek > mmap.len() {
         panic!(
-          "seek_index must be between {} and {}",
-          data_start_index,
+          "seek_index must be between {data_start_index} and {}",
           mmap.len()
         );
       }
@@ -90,7 +89,7 @@ impl MMAVUnit {
       mmap[seek] = 0;
     }
 
-    Self { mmap, seek, seek_index, data_start_index }
+    Self { seek, seek_index, mmap, data_start_index }
   }
 
   /// Set seek to `len`

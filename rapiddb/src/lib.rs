@@ -141,8 +141,8 @@
 //!   warp::path!("api" / "custom" / String / "latest")
 //!     .and(warp::get())
 //!     .map(move |id: String| {
-//!       let mut lock = db.write().unwrap();
-//!       let result = lock.get_latest(&id);
+//!       let result =
+//!         db.write().map(|mut lock| lock.get_latest(&id)).unwrap_or_default();
 //!
 //!       if !result.is_empty() {
 //!         return warp::hyper::Response::builder()
