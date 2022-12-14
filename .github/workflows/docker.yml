@@ -25,7 +25,7 @@ jobs:
     - name: Test
       run: cargo test
     - name: Lint
-      run: cargo clippy --tests -- -D warnings
+      run: cargo clippy --all-targets --all-features -- -Dwarnings
     - name: Formatting
       run: cargo fmt --all -- --check
 

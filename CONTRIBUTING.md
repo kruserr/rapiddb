@@ -7,7 +7,7 @@ Before submitting a pull request please make sure that your code follows the sty
 ## Style Guide
 
 - **Commits** follow the ["Conventional Commits" specification](https://www.conventionalcommits.org/en/v1.0.0/) 
-- **Code** is formatted via `cargo +nightly fmt --all` and linted via `cargo clippy --tests -- -D warnings`
+- **Code** is formatted via `cargo +nightly fmt --all` and linted via `cargo clippy --all-targets --all-features -- -Dwarnings`
 - **Unsafe** is used when appropriate [Rustonomicon](https://doc.rust-lang.org/nomicon/)
 
 ## Getting Started
@@ -21,7 +21,7 @@ cargo build
 
 cargo test
 cargo +nightly fmt --all
-cargo clippy --tests -- -D warnings
+cargo clippy --all-targets --all-features -- -Dwarnings
 ```
 
 ### VS Code Extensions
