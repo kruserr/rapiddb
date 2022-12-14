@@ -561,7 +561,7 @@ dependencies = [
 
 [[package]]
 name = "rapiddb"
-version = "0.1.15"
+version = "0.1.16"
 dependencies = [
  "memmap2",
  "serde",
