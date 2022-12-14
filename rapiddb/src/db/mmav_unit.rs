@@ -82,7 +82,7 @@ impl MMAVUnit {
       seek_index = u32::from_ne_bytes(mmap[4..8].try_into().unwrap()) as usize;
 
       if seek_index > data_start_index {
-        panic!("seek_index must be between 8 and {}", data_start_index);
+        panic!("seek_index must be between 8 and {data_start_index}");
       }
     }
 

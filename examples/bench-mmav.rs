@@ -7,7 +7,7 @@ use std::{
 async fn main() {
   let mut aggregates_fn: HashMap<
     String,
-    Arc<Mutex<dyn Fn(&str, &[u8], &Arc<Mutex<Vec<u8>>>) + Send>>,
+    rapiddb::types::AggregateFn,
   > = Default::default();
 
   let test_fn = Arc::new(Mutex::new(
