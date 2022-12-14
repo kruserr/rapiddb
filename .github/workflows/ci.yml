@@ -48,10 +48,6 @@ jobs:
 
   publish-docker-github:
     name: Push image to GitHub Packages
-    needs:
-      - rustfmt
-      - clippy
-      - test
     runs-on: ubuntu-22.04
     if: github.event_name == 'push'
 
