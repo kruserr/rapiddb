@@ -82,6 +82,10 @@ jobs:
 
   publish-docker:
     name: Publish on GitHub Packages and Docker Hub
+    needs:
+      - rustfmt
+      - clippy
+      - test
     runs-on: ubuntu-22.04
     if: github.event_name == 'push'
     permissions:
