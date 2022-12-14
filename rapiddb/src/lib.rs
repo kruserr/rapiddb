@@ -1,23 +1,24 @@
 #![doc(
-  html_logo_url = "https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg",
-  html_favicon_url = "https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg"
+  html_logo_url = "https://raw.githubusercontent.com/kruserr/rapiddb/main/assets/logo/logo.svg",
+  html_favicon_url = "https://raw.githubusercontent.com/kruserr/rapiddb/main/assets/logo/favicon.ico"
 )]
 
 //! <p align="center">
 //!   <a href="https://github.com/kruserr/rapiddb" target="_blank">
-//!     <img width="300" src="https://user-images.githubusercontent.com/46799551/207298227-51584f5b-ee75-45e0-88f2-24d98079bdeb.svg">
+//!     <img width="300" src="https://raw.githubusercontent.com/kruserr/rapiddb/main/assets/logo/logo.svg">
 //!   </a>
-//!   <br>
-//!   <br>
+//!   <br/>
+//!   <br/>
 //!   <a href="https://github.com/kruserr/rapiddb/releases" target="_blank">
 //!     <img src="https://img.shields.io/github/v/release/kruserr/rapiddb?sort=semver&logo=GitHub&logoColor=white">
 //!   </a>
 //!   <a href="https://crates.io/crates/rapiddb" target="_blank">
 //!     <img src="https://img.shields.io/crates/v/rapiddb?logo=Rust&logoColor=white"/>
 //!   </a>
-//!   <!-- <a href="https://hub.docker.com/r/kruserr/rapiddb" target="_blank">
+//!   <br/>
+//!   <a href="https://hub.docker.com/r/kruserr/rapiddb" target="_blank">
 //!     <img src="https://img.shields.io/docker/v/kruserr/rapiddb?sort=semver&logo=docker&logoColor=white"/>
-//!   </a> -->
+//!   </a>
 //!   <a href="https://codecov.io/gh/kruserr/rapiddb" target="_blank">
 //!     <img src="https://img.shields.io/codecov/c/gh/kruserr/rapiddb?logo=Codecov&logoColor=white"/>
 //!   </a>
@@ -42,7 +43,7 @@
 //! ### Docker
 //! Run database with docker
 //! ```bash
-//! docker run -dit --rm -p 3030:3030 --name rapiddb ghcr.io/kruserr/rapiddb/rapiddb
+//! docker run -dit --rm -p 3030:3030 --name rapiddb kruserr/rapiddb:0.1
 //! ```
 //!
 //! ### Git and cargo
