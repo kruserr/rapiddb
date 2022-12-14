@@ -45,7 +45,7 @@ jobs:
       - name: Lint
         run: cargo clippy --all-targets --all-features -- -Dwarnings
 
-  check:
+  test:
     name: Test
     runs-on: ubuntu-22.04
     steps:
