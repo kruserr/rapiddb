@@ -115,14 +115,20 @@ jobs:
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "main" ] && VERSION=latest
+          # Strip patch version from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION_MINOR=${VERSION%.*}
 
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
+          # Strip minor version from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION_MAJOR=${VERSION_MINOR%.*}
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION_MINOR
+          docker push $IMAGE_ID:$VERSION_MINOR
+
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION_MAJOR
+          docker push $IMAGE_ID:$VERSION_MAJOR
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Push image to Docker Hub
@@ -138,11 +144,17 @@ jobs:
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "main" ] && VERSION=latest
+          # Strip patch version from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION_MINOR=${VERSION%.*}
 
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
+          # Strip minor version from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION_MAJOR=${VERSION_MINOR%.*}
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION_MINOR
+          docker push $IMAGE_ID:$VERSION_MINOR
+
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION_MAJOR
+          docker push $IMAGE_ID:$VERSION_MAJOR
