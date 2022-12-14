@@ -17,15 +17,10 @@ jobs:
     name: Formatting
     runs-on: ubuntu-22.04
     steps:
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          components: rustfmt
-          override: true
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
       - name: Formatting
         run: cargo fmt --all -- --check
 
@@ -33,15 +28,10 @@ jobs:
     name: Lint
     runs-on: ubuntu-22.04
     steps:
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          components: clippy
-          override: true
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
       - name: Lint
         run: cargo clippy --all-targets --all-features -- -Dwarnings
 
@@ -49,14 +39,10 @@ jobs:
     name: Test
     runs-on: ubuntu-22.04
     steps:
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
       - name: Test
         run: cargo test
 

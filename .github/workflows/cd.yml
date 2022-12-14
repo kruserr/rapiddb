@@ -14,15 +14,10 @@ jobs:
     name: Formatting
     runs-on: ubuntu-22.04
     steps:
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          components: rustfmt
-          override: true
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
       - name: Formatting
         run: cargo fmt --all -- --check
 
@@ -30,15 +25,10 @@ jobs:
     name: Lint
     runs-on: ubuntu-22.04
     steps:
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          components: clippy
-          override: true
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
       - name: Lint
         run: cargo clippy --all-targets --all-features -- -Dwarnings
 
@@ -46,12 +36,6 @@ jobs:
     name: Test
     runs-on: ubuntu-22.04
     steps:
-      - name: Install toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-          override: true
       - name: Checkout
         if: github.event_name != 'pull_request'
         uses: actions/checkout@v3
@@ -63,6 +47,8 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
       - name: Setup cargo-tarpaulin
         run: |
           curl -s https://api.github.com/repos/xd009642/tarpaulin/releases/tags/0.22.0 | \
@@ -88,8 +74,11 @@ jobs:
       - test
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - name: publish
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
+      - name: Publish
         run: |
           cargo publish -p rapiddb --token ${{ secrets.CARGO_TOKEN }}
 
