@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.17] - 2023-06-20
+
+### Documentation
+
+- Remove duplicate changelog
+
+### Miscellaneous Tasks
+
+- Update memmap2 requirement from 0.5 to 0.7 in /rapiddb
+
+### Build
+
+- Cargo update
+
+### Ci
+
+- Use rust 1-70 and bookworm
+
 ## [0.1.16] - 2022-12-14
 
 ### Ci
