@@ -14,7 +14,7 @@ categories = ["database", "database-implementations", "caching"]
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
 serde = "1.0"
-memmap2 = "0.7"
+memmap2 = "0.8"
 serde_json = "1.0"
 
 [lib]
