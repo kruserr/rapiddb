@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+
+# Example
+# ```sh
+# ./prepare_release.sh v0.1.18
+# ```
+
 set -Eeuo pipefail
 
 ci () {
