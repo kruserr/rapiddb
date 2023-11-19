@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.18] - 2023-11-19
+
+### Documentation
+
+- Add example to prepare_release.sh
+
+### Miscellaneous Tasks
+
+- Update memmap2 requirement from 0.7 to 0.9 in /rapiddb
+
+### Build
+
+- Update Cargo.lock and use resolver 2
+- Use rust 1.74
+
 ## [0.1.17] - 2023-06-20
 
 ### Documentation
