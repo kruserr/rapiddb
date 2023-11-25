@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.20] - 2023-11-25
+
+### Features
+
+- #13: add IAsyncDatabase trait
+- #13: basic MMAVAsyncDatabase implementation
+- [**breaking**] #13: use IAsyncDatabase in warp
+
+### Refactor
+
+- #13: move mmav to subfolder
+- #13: rename IDatabase file
+
+### Build
+
+- #13: add async-trait
+
 ## [0.1.19] - 2023-11-25
 
 ### Features
