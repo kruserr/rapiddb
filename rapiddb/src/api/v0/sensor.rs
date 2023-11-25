@@ -4,7 +4,7 @@ use warp::{Filter, Rejection, Reply};
 
 /// GET /api/v0/:String
 pub fn get(
-  db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
+  db: std::sync::Arc<std::sync::RwLock<impl IDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   warp::path!("api" / "v0" / String)
     .and(warp::get())
@@ -35,7 +35,7 @@ pub fn get(
 
 /// POST /api/v0/:String
 pub fn post(
-  db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
+  db: std::sync::Arc<std::sync::RwLock<impl IDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   warp::path!("api" / "v0" / String)
     .and(warp::post())

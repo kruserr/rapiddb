@@ -4,7 +4,7 @@ use warp::{Filter, Rejection, Reply};
 
 /// GET /api/v0/:String/aggregates
 pub fn get(
-  db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
+  db: std::sync::Arc<std::sync::RwLock<impl IDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   warp::path!("api" / "v0" / String / "aggregates").and(warp::get()).map(
     move |id: String| {
