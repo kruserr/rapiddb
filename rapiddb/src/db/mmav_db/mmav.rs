@@ -1,4 +1,4 @@
-use crate::db::mmav_unit::MMAVUnit;
+use crate::db::mmav_db::mmav_unit::MMAVUnit;
 use crate::errors::MMAVError;
 
 /// Memory Mapped Append-only Vector

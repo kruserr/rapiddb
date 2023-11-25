@@ -1,40 +1,50 @@
-use crate::traits::IDatabase;
+use crate::{api::helpers::with_db, traits::IAsyncDatabase};
 
 use warp::{Filter, Rejection, Reply};
 
 /// GET /api/v0/sensors/latest/:usize
 pub fn get(
-  db: std::sync::Arc<std::sync::RwLock<impl IDatabase + ?Sized>>,
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-  warp::path!("api" / "v0" / "sensors" / "latest" / usize).and(warp::get()).map(
-    move |limit| {
-      let mut lock = db.write().unwrap();
-      let data = lock.get_all_latest_with_limit(limit);
+  warp::path!("api" / "v0" / "sensors" / "latest" / usize)
+    .and(warp::get())
+    .and(with_db(db))
+    .and_then(_get)
+}
 
-      if !data.is_empty() {
-        let mut result: String = Default::default();
-        result += "{";
-        for (key, value_arr) in data {
-          result += &format!("\"{key}\":[");
-          for value in value_arr {
-            result +=
-              &format!("{},", std::str::from_utf8(&value).unwrap_or_default());
-          }
-          result.pop();
-          result += "],";
-        }
-        result.pop();
-        result += "}";
+pub async fn _get(
+  limit: usize,
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
+) -> Result<impl warp::Reply, std::convert::Infallible> {
+  let mut lock = db.write().await;
+  let data = lock.get_all_latest_with_limit(limit).await;
 
-        return warp::hyper::Response::builder()
-          .status(warp::http::StatusCode::OK)
-          .body(result);
+  if !data.is_empty() {
+    let mut result: String = Default::default();
+    result += "{";
+    for (key, value_arr) in data {
+      result += &format!("\"{key}\":[");
+      for value in value_arr {
+        result +=
+          &format!("{},", std::str::from_utf8(&value).unwrap_or_default());
       }
+      result.pop();
+      result += "],";
+    }
+    result.pop();
+    result += "}";
 
+    return Ok(
       warp::hyper::Response::builder()
-        .status(warp::http::StatusCode::NOT_FOUND)
-        .body(Default::default())
-    },
+        .status(warp::http::StatusCode::OK)
+        .body(result),
+    );
+  }
+
+  Ok(
+    warp::hyper::Response::builder()
+      .status(warp::http::StatusCode::NOT_FOUND)
+      .body(Default::default()),
   )
 }
 
@@ -60,8 +70,9 @@ async fn test_get() {
     assert_eq!(resp.status(), 404);
 
     db.write()
-      .unwrap()
-      .post(id, serde_json::json!({ "id": &id }).to_string().as_bytes());
+      .await
+      .post(id, serde_json::json!({ "id": &id }).to_string().as_bytes())
+      .await;
 
     let resp = warp::test::request()
       .method("GET")
@@ -82,8 +93,9 @@ async fn test_get() {
     assert_eq!(resp.status(), 404);
 
     db.write()
-      .unwrap()
-      .post(id, serde_json::json!({ "id1": &id }).to_string().as_bytes());
+      .await
+      .post(id, serde_json::json!({ "id1": &id }).to_string().as_bytes())
+      .await;
 
     let resp = warp::test::request()
       .method("GET")
@@ -114,8 +126,9 @@ async fn test_get() {
 
     for _ in 0..8 {
       db.write()
-        .unwrap()
-        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .await
+        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes())
+        .await;
     }
 
     let resp = warp::test::request()
@@ -156,14 +169,16 @@ async fn test_get() {
 
     for _ in 0..8 {
       db.write()
-        .unwrap()
-        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .await
+        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes())
+        .await;
     }
 
     for _ in 0..7 {
       db.write()
-        .unwrap()
-        .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .await
+        .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes())
+        .await;
     }
 
     let resp = warp::test::request()
@@ -203,8 +218,9 @@ async fn test_get() {
     );
 
     db.write()
-      .unwrap()
-      .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+      .await
+      .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes())
+      .await;
 
     let resp = warp::test::request()
       .method("GET")
@@ -244,14 +260,16 @@ async fn test_get() {
 
     for _ in 0..8 {
       db.write()
-        .unwrap()
-        .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .await
+        .post(id, serde_json::json!({ "id2": &id }).to_string().as_bytes())
+        .await;
     }
 
     for _ in 0..8 {
       db.write()
-        .unwrap()
-        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes());
+        .await
+        .post(id0, serde_json::json!({ "id2": &id }).to_string().as_bytes())
+        .await;
     }
 
     let resp = warp::test::request()
@@ -290,10 +308,13 @@ async fn test_get() {
       20
     );
 
-    db.write().unwrap().post_meta(
-      id1,
-      serde_json::json!({ "id1": &id1 }).to_string().as_bytes().to_vec(),
-    );
+    db.write()
+      .await
+      .post_meta(
+        id1,
+        serde_json::json!({ "id1": &id1 }).to_string().as_bytes().to_vec(),
+      )
+      .await;
     let resp = warp::test::request()
       .method("GET")
       .path(&format!("/api/v0/sensors/latest/{limit}"))

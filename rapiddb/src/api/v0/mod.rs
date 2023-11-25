@@ -14,11 +14,11 @@ mod sensors_meta;
 
 use warp::{Filter, Rejection, Reply};
 
-use crate::traits::IDatabase;
+use crate::traits::IAsyncDatabase;
 
 /// Sensor API Endpoints
 pub fn endpoints(
-  db: std::sync::Arc<std::sync::RwLock<impl IDatabase + ?Sized>>,
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   api::get()
     .or(sensors_latest_limit::get(db.clone()))

@@ -1,37 +1,46 @@
-use crate::traits::IDatabase;
+use crate::{api::helpers::with_db, traits::IAsyncDatabase};
 
 use warp::{Filter, Rejection, Reply};
 
 /// GET /api/v0/sensors/aggregates
 pub fn get(
-  db: std::sync::Arc<std::sync::RwLock<impl IDatabase + ?Sized>>,
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-  warp::path!("api" / "v0" / "sensors" / "aggregates").and(warp::get()).map(
-    move || {
-      let lock = db.read().unwrap();
-      let data = lock.get_all_aggregates();
+  warp::path!("api" / "v0" / "sensors" / "aggregates")
+    .and(warp::get())
+    .and(with_db(db))
+    .and_then(_get)
+}
 
-      if !data.is_empty() {
-        let mut result: String = Default::default();
-        result += "{";
-        for (key, value) in data {
-          result += &format!(
-            "\"{key}\":{},",
-            std::str::from_utf8(&value).unwrap_or_default()
-          );
-        }
-        result.pop();
-        result += "}";
+pub async fn _get(
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
+) -> Result<impl warp::Reply, std::convert::Infallible> {
+  let lock = db.read().await;
+  let data = lock.get_all_aggregates().await;
 
-        return warp::hyper::Response::builder()
-          .status(warp::http::StatusCode::OK)
-          .body(result);
-      }
+  if !data.is_empty() {
+    let mut result: String = Default::default();
+    result += "{";
+    for (key, value) in data {
+      result += &format!(
+        "\"{key}\":{},",
+        std::str::from_utf8(&value).unwrap_or_default()
+      );
+    }
+    result.pop();
+    result += "}";
 
+    return Ok(
       warp::hyper::Response::builder()
-        .status(warp::http::StatusCode::NOT_FOUND)
-        .body(String::new())
-    },
+        .status(warp::http::StatusCode::OK)
+        .body(result),
+    );
+  }
+
+  Ok(
+    warp::hyper::Response::builder()
+      .status(warp::http::StatusCode::NOT_FOUND)
+      .body(String::new()),
   )
 }
 
@@ -55,8 +64,9 @@ async fn test_get() {
     assert_eq!(resp.status(), 404);
 
     db.write()
-      .unwrap()
-      .post(id, serde_json::json!({"temp": 8.00}).to_string().as_bytes());
+      .await
+      .post(id, serde_json::json!({"temp": 8.00}).to_string().as_bytes())
+      .await;
 
     let resp = warp::test::request()
       .method("GET")
@@ -71,8 +81,9 @@ async fn test_get() {
     );
 
     db.write()
-      .unwrap()
-      .post(id0, serde_json::json!({"temp": 4.00}).to_string().as_bytes());
+      .await
+      .post(id0, serde_json::json!({"temp": 4.00}).to_string().as_bytes())
+      .await;
 
     let resp = warp::test::request()
       .method("GET")

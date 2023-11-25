@@ -2,29 +2,32 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use std::sync::Mutex;
 
-use crate::db::MMAVDatabase;
-use crate::traits::IDatabase;
+use crate::traits::IAsyncDatabase;
 use crate::types::AggregateFn;
+
+use super::MMAVAsyncDatabase;
 
 /// Database test factory, stores a hashmap with all databases for
 /// testing
 ///
 /// ## Examples
 /// ```no_run
-/// let database_test_factory =
-/// rapiddb::db::DatabaseTestFactory::new(".temp/test/api_endpoint/test_get");
+/// # tokio_test::block_on(async {
+///   let database_test_factory =
+///   rapiddb::db::DatabaseTestFactory::new(".temp/test/api_endpoint/test_get");
 ///
-/// for db in database_test_factory.get_instance().values() {
-///   let value = b"{\"key\": \"value\"}";
-///   db.write().unwrap().post("test-0", value);
-///   assert_eq!(db.write().unwrap().get_latest("test-0"), value);
-/// }
+///   for db in database_test_factory.get_instance().values() {
+///     let value = b"{\"key\": \"value\"}";
+///     db.write().await.post("test-0", value).await;
+///     assert_eq!(db.write().await.get_latest("test-0").await, value);
+///   }
+/// # })
 /// ```
 pub struct DatabaseTestFactory {
   db_path: String,
   databases: std::collections::HashMap<
     String,
-    std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
+    std::sync::Arc<tokio::sync::RwLock<dyn IAsyncDatabase>>,
   >,
 }
 impl Drop for DatabaseTestFactory {
@@ -40,19 +43,21 @@ impl DatabaseTestFactory {
   ///
   /// ## Examples
   /// ```no_run
-  /// let database_test_factory =
-  /// rapiddb::db::DatabaseTestFactory::new(".temp/test/api_endpoint/test_get");
+  /// # tokio_test::block_on(async {
+  ///   let database_test_factory =
+  ///   rapiddb::db::DatabaseTestFactory::new(".temp/test/api_endpoint/test_get");
   ///
-  /// for db in database_test_factory.get_instance().values() {
-  ///   let value = b"{\"key\": \"value\"}";
-  ///   db.write().unwrap().post("test-0", value);
-  ///   assert_eq!(db.write().unwrap().get_latest("test-0"), value);
-  /// }
+  ///   for db in database_test_factory.get_instance().values() {
+  ///     let value = b"{\"key\": \"value\"}";
+  ///     db.write().await.post("test-0", value).await;
+  ///     assert_eq!(db.write().await.get_latest("test-0").await, value);
+  ///   }
+  /// # })
   /// ```
   pub fn new(db_path: &str) -> Self {
     let mut databases: std::collections::HashMap<
       String,
-      std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
+      std::sync::Arc<tokio::sync::RwLock<dyn IAsyncDatabase>>,
     > = Default::default();
 
     // type AggregateFn = Arc<Mutex<dyn Fn(&str, &[u8], &Arc<Mutex<Vec<u8>>>) +
@@ -101,10 +106,9 @@ impl DatabaseTestFactory {
     let mmav_db_path = format!("{db_path}_mmav");
     databases.insert(
       mmav_db_path.clone(),
-      std::sync::Arc::new(std::sync::RwLock::new(MMAVDatabase::new_with_all(
-        &mmav_db_path,
-        aggregates_fn.clone(),
-      ))),
+      std::sync::Arc::new(tokio::sync::RwLock::new(
+        MMAVAsyncDatabase::new_with_all(&mmav_db_path, aggregates_fn.clone()),
+      )),
     );
 
     Self { db_path: db_path.to_string(), databases }
@@ -115,7 +119,7 @@ impl DatabaseTestFactory {
     &self,
   ) -> &std::collections::HashMap<
     String,
-    std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
+    std::sync::Arc<tokio::sync::RwLock<dyn IAsyncDatabase>>,
   > {
     &self.databases
   }

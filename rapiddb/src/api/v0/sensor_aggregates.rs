@@ -1,26 +1,36 @@
-use crate::traits::IDatabase;
+use crate::{api::helpers::with_db, traits::IAsyncDatabase};
 
 use warp::{Filter, Rejection, Reply};
 
 /// GET /api/v0/:String/aggregates
 pub fn get(
-  db: std::sync::Arc<std::sync::RwLock<impl IDatabase + ?Sized>>,
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-  warp::path!("api" / "v0" / String / "aggregates").and(warp::get()).map(
-    move |id: String| {
-      let lock = db.read().unwrap();
-      let result = lock.get_aggregates(&id);
+  warp::path!("api" / "v0" / String / "aggregates")
+    .and(warp::get())
+    .and(with_db(db))
+    .and_then(_get)
+}
 
-      if !result.is_empty() {
-        return warp::hyper::Response::builder()
-          .status(warp::http::StatusCode::OK)
-          .body(result);
-      }
+pub async fn _get(
+  id: String,
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
+) -> Result<impl warp::Reply, std::convert::Infallible> {
+  let lock = db.read().await;
+  let result = lock.get_aggregates(&id).await;
 
+  if !result.is_empty() {
+    return Ok(
       warp::hyper::Response::builder()
-        .status(warp::http::StatusCode::NOT_FOUND)
-        .body(Default::default())
-    },
+        .status(warp::http::StatusCode::OK)
+        .body(result),
+    );
+  }
+
+  Ok(
+    warp::hyper::Response::builder()
+      .status(warp::http::StatusCode::NOT_FOUND)
+      .body(Default::default()),
   )
 }
 
@@ -43,8 +53,9 @@ async fn test_get() {
     assert_eq!(resp.status(), 404);
 
     db.write()
-      .unwrap()
-      .post(id, serde_json::json!({"temp": 8.00}).to_string().as_bytes());
+      .await
+      .post(id, serde_json::json!({"temp": 8.00}).to_string().as_bytes())
+      .await;
 
     let resp = warp::test::request()
       .method("GET")
@@ -58,8 +69,9 @@ async fn test_get() {
     );
 
     db.write()
-      .unwrap()
-      .post(id, serde_json::json!({"temp": 4.00}).to_string().as_bytes());
+      .await
+      .post(id, serde_json::json!({"temp": 4.00}).to_string().as_bytes())
+      .await;
 
     let resp = warp::test::request()
       .method("GET")

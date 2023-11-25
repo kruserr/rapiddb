@@ -1,31 +1,43 @@
 use std::{
   collections::HashMap,
-  sync::{Arc, Mutex, RwLock},
+  sync::{Arc, Mutex},
 };
+use tokio::sync::RwLock;
 
-use rapiddb::traits::IDatabase;
+use rapiddb::api::helpers::with_db;
+use rapiddb::traits::IAsyncDatabase;
 
 use warp::{Filter, Rejection, Reply};
 
 /// GET /api/custom/:String/latest
 pub fn get_latest_custom(
-  db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-  warp::path!("api" / "custom" / String / "latest").and(warp::get()).map(
-    move |id: String| {
-      let result =
-        db.write().map(|mut lock| lock.get_latest(&id)).unwrap_or_default();
+  warp::path!("api" / "custom" / String / "latest")
+    .and(warp::get())
+    .and(with_db(db))
+    .and_then(_get_latest_custom)
+}
 
-      if !result.is_empty() {
-        return warp::hyper::Response::builder()
-          .status(warp::http::StatusCode::OK)
-          .body(result);
-      }
+/// GET /api/custom/:String/latest
+pub async fn _get_latest_custom(
+  id: String,
+  db: std::sync::Arc<tokio::sync::RwLock<impl IAsyncDatabase + ?Sized>>,
+) -> Result<impl warp::Reply, std::convert::Infallible> {
+  let result = db.write().await.get_latest(&id).await;
 
+  if !result.is_empty() {
+    return Ok(
       warp::hyper::Response::builder()
-        .status(warp::http::StatusCode::NOT_FOUND)
-        .body(Default::default())
-    },
+        .status(warp::http::StatusCode::OK)
+        .body(result),
+    );
+  }
+
+  Ok(
+    warp::hyper::Response::builder()
+      .status(warp::http::StatusCode::NOT_FOUND)
+      .body(Default::default()),
   )
 }
 
@@ -71,14 +83,14 @@ async fn main() {
   aggregates_fn.insert("test-0".to_string(), test_fn.clone());
   aggregates_fn.insert("test-1".to_string(), test_fn);
 
-  let db = Arc::new(RwLock::new(rapiddb::db::MMAVDatabase::new_with_all(
+  let db = Arc::new(RwLock::new(rapiddb::db::MMAVAsyncDatabase::new_with_all(
     ".db",
     aggregates_fn,
   )));
 
   let value = b"{\"key\": \"value\"}";
-  db.write().unwrap().post("test-0", value);
-  assert_eq!(db.write().unwrap().get_latest("test-0"), value);
+  db.write().await.post("test-0", value).await;
+  assert_eq!(db.write().await.get_latest("test-0").await, value);
 
   warp::serve(rapiddb::api::endpoints(db.clone()).or(get_latest_custom(db)))
     .run(([0, 0, 0, 0], 3030))
