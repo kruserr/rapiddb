@@ -18,7 +18,7 @@ use crate::traits::IDatabase;
 
 /// Sensor API Endpoints
 pub fn endpoints(
-  db: std::sync::Arc<std::sync::RwLock<dyn IDatabase>>,
+  db: std::sync::Arc<std::sync::RwLock<impl IDatabase + ?Sized>>,
 ) -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
   api::get()
     .or(sensors_latest_limit::get(db.clone()))
