@@ -163,7 +163,11 @@ pub trait IAsyncDatabase: Send + Sync {
   ///
   /// db.write().unwrap().get_latest_with_limit("test-0", 10);
   /// ```
-  async fn get_latest_with_limit(&mut self, id: &str, limit: usize) -> Vec<Vec<u8>>;
+  async fn get_latest_with_limit(
+    &mut self,
+    id: &str,
+    limit: usize,
+  ) -> Vec<Vec<u8>>;
 
   /// Get a range from `start` to `end` of records from the sensor with
   /// `id` in the Database
@@ -184,7 +188,12 @@ pub trait IAsyncDatabase: Send + Sync {
   ///
   /// db.write().unwrap().get_range("test-0", 0, 10);
   /// ```
-  async fn get_range(&mut self, id: &str, start: usize, end: usize) -> Vec<Vec<u8>>;
+  async fn get_range(
+    &mut self,
+    id: &str,
+    start: usize,
+    end: usize,
+  ) -> Vec<Vec<u8>>;
 
   /// Get metadata from all sensors in the Database
   ///
@@ -216,7 +225,9 @@ pub trait IAsyncDatabase: Send + Sync {
   ///
   /// db.read().unwrap().get_all_aggregates();
   /// ```
-  async fn get_all_aggregates(&self) -> std::collections::HashMap<&str, Vec<u8>>;
+  async fn get_all_aggregates(
+    &self,
+  ) -> std::collections::HashMap<&str, Vec<u8>>;
 
   /// Get the latest record from all sensors in the Database
   ///
@@ -232,7 +243,9 @@ pub trait IAsyncDatabase: Send + Sync {
   ///
   /// db.write().unwrap().get_all_latest();
   /// ```
-  async fn get_all_latest(&mut self) -> std::collections::HashMap<&str, Vec<u8>>;
+  async fn get_all_latest(
+    &mut self,
+  ) -> std::collections::HashMap<&str, Vec<u8>>;
 
   /// Get the latest `limit` number of records from all sensors in the
   /// Database

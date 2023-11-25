@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 use std::io::{Read, Write};
 
-use crate::db::mmav::mmav::MMAV;
-use crate::traits::IAsyncDatabase;
+use crate::db::mmav_db::mmav::MMAV;
+use crate::traits::IDatabase;
 use crate::types::AggregateFn;
 
 /// Memory Mapped Append-only Vector Database
@@ -26,7 +26,7 @@ use crate::types::AggregateFn;
 /// db.write().unwrap().post("test-0", value);
 /// assert_eq!(db.write().unwrap().get_latest("test-0"), value);
 /// ```
-pub struct MMAVAsyncDatabase {
+pub struct MMAVDatabase {
   db_path: String,
   sensors: std::collections::HashMap<String, MMAV>,
   meta: std::collections::HashMap<String, Vec<u8>>,
@@ -36,7 +36,7 @@ pub struct MMAVAsyncDatabase {
   >,
   aggregates_fn: HashMap<String, AggregateFn>,
 }
-impl MMAVAsyncDatabase {
+impl MMAVDatabase {
   /// Memory Mapped Append-only Vector Database Constructor
   ///
   /// ## Examples
@@ -147,27 +147,26 @@ impl MMAVAsyncDatabase {
   }
 }
 
-impl Default for MMAVAsyncDatabase {
+impl Default for MMAVDatabase {
   fn default() -> Self {
     Self::new()
   }
 }
-#[async_trait::async_trait]
-impl IAsyncDatabase for MMAVAsyncDatabase {
-  async fn contains(&self, id: &str) -> bool {
+impl IDatabase for MMAVDatabase {
+  fn contains(&self, id: &str) -> bool {
     self.sensors.get(id).is_some()
   }
 
-  async fn get(&mut self, id: &str, rec_id: usize) -> Vec<u8> {
-    if !self.contains(id).await {
+  fn get(&mut self, id: &str, rec_id: usize) -> Vec<u8> {
+    if !self.contains(id) {
       return Default::default();
     }
 
     self.sensors.get_mut(id).unwrap().get(rec_id)
   }
 
-  async fn post(&mut self, id: &str, value: &[u8]) {
-    if !self.contains(id).await {
+  fn post(&mut self, id: &str, value: &[u8]) {
+    if !self.contains(id) {
       self
         .sensors
         .insert(id.to_owned(), MMAV::new(&format!("{}/{id}", self.db_path)));
@@ -191,8 +190,8 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
     self.sensors.get_mut(id).unwrap().push(value);
   }
 
-  async fn get_meta(&mut self, id: &str) -> Vec<u8> {
-    if !self.contains(id).await {
+  fn get_meta(&mut self, id: &str) -> Vec<u8> {
+    if !self.contains(id) {
       return Default::default();
     }
 
@@ -202,8 +201,8 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
     }
   }
 
-  async fn post_meta(&mut self, id: &str, data: Vec<u8>) {
-    if !self.contains(id).await {
+  fn post_meta(&mut self, id: &str, data: Vec<u8>) {
+    if !self.contains(id) {
       self
         .sensors
         .insert(id.to_owned(), MMAV::new(&format!("{}/{id}", self.db_path)));
@@ -242,7 +241,7 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
     self.meta.insert(id.to_owned(), data);
   }
 
-  async fn get_aggregates(&self, id: &str) -> Vec<u8> {
+  fn get_aggregates(&self, id: &str) -> Vec<u8> {
     if self.aggregates.get(id).is_none() {
       return Default::default();
     }
@@ -250,31 +249,31 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
     self.aggregates[id].lock().unwrap().clone()
   }
 
-  async fn get_latest(&mut self, id: &str) -> Vec<u8> {
-    if !self.contains(id).await {
+  fn get_latest(&mut self, id: &str) -> Vec<u8> {
+    if !self.contains(id) {
       return Default::default();
     }
 
     self.sensors.get(id).unwrap().last()
   }
 
-  async fn get_latest_with_limit(&mut self, id: &str, limit: usize) -> Vec<Vec<u8>> {
-    if !self.contains(id).await {
+  fn get_latest_with_limit(&mut self, id: &str, limit: usize) -> Vec<Vec<u8>> {
+    if !self.contains(id) {
       return Default::default();
     }
 
     self.sensors.get_mut(id).unwrap().last_limit(limit)
   }
 
-  async fn get_range(&mut self, id: &str, start: usize, end: usize) -> Vec<Vec<u8>> {
-    if !self.contains(id).await {
+  fn get_range(&mut self, id: &str, start: usize, end: usize) -> Vec<Vec<u8>> {
+    if !self.contains(id) {
       return Default::default();
     }
 
     self.sensors.get_mut(id).unwrap().range(start, end)
   }
 
-  async fn get_all_meta(&mut self) -> std::collections::HashMap<&str, Vec<u8>> {
+  fn get_all_meta(&mut self) -> std::collections::HashMap<&str, Vec<u8>> {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 
@@ -285,7 +284,7 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
     result
   }
 
-  async fn get_all_aggregates(&self) -> std::collections::HashMap<&str, Vec<u8>> {
+  fn get_all_aggregates(&self) -> std::collections::HashMap<&str, Vec<u8>> {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 
@@ -296,7 +295,7 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
     result
   }
 
-  async fn get_all_latest(&mut self) -> std::collections::HashMap<&str, Vec<u8>> {
+  fn get_all_latest(&mut self) -> std::collections::HashMap<&str, Vec<u8>> {
     let mut result: std::collections::HashMap<&str, Vec<u8>> =
       Default::default();
 
@@ -307,7 +306,7 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
     result
   }
 
-  async fn get_all_latest_with_limit(
+  fn get_all_latest_with_limit(
     &mut self,
     limit: usize,
   ) -> std::collections::HashMap<&str, Vec<Vec<u8>>> {
