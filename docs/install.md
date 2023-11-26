@@ -3,21 +3,21 @@
 ## Install
 ### Git and cargo
 Clone the repo and build the database from source
-```bash
+```sh
 git clone https://github.com/kruserr/rapiddb.git
 cd rapiddb
 cargo run --release
 ```
 
 ### Add to your cargo project
-Add the following to your dependencies in Cargo.toml
+Cargo.toml
 ```toml
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
 rapiddb-web = "0.1"
 ```
 
-Paste the following in your main.rs
+src/main.rs
 ```rust
 #[tokio::main]
 async fn main() {
@@ -28,7 +28,7 @@ async fn main() {
 ```
 
 Run the database with cargo
-```bash
+```sh
 cargo run --release
 ```
 
@@ -40,6 +40,7 @@ Cargo.toml
 rapiddb = "0.1"
 ```
 
+src/main.rs
 ```rust
 use rapiddb::traits::IDatabase;
 
@@ -50,4 +51,9 @@ pub fn main() {
   db.post("test-0", value);
   assert_eq!(db.get_latest("test-0"), value);
 }
+```
+
+Run the database with cargo
+```sh
+cargo run --release
 ```
