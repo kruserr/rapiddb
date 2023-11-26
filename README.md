@@ -62,10 +62,10 @@ Paste the following to your main.rs
 #[tokio::main]
 async fn main() {
   let db = std::sync::Arc::new(tokio::sync::RwLock::new(
-    rapiddb::db::MMAVAsyncDatabase::new(),
+    rapiddb_web::rapiddb::db::MMAVAsyncDatabase::new(),
   ));
 
-  warp::serve(rapiddb::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
+  warp::serve(rapiddb_web::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
 }
 ```
 
@@ -103,11 +103,11 @@ look at the examples below, or inside the repo.
 ## Examples
 Using the database directly
 ```rust
-use rapiddb::traits::IDatabase;
+use rapiddb_web::rapiddb::traits::IDatabase;
 
 let db = std::sync::Arc::new(
   std::sync::RwLock::new(
-    rapiddb::db::MMAVDatabase::new()
+    rapiddb_web::rapiddb::db::MMAVDatabase::new()
   )
 );
 
@@ -127,7 +127,7 @@ use tokio::sync::RwLock;
 
 #[tokio::main]
 async fn main() {
-  let mut aggregates_fn: HashMap<String, rapiddb::types::AggregateFn> =
+  let mut aggregates_fn: HashMap<String, rapiddb_web::rapiddb::types::AggregateFn> =
     Default::default();
 
   let test_fn = Arc::new(Mutex::new(
@@ -167,11 +167,11 @@ async fn main() {
   aggregates_fn.insert("test-0".to_string(), test_fn.clone());
   aggregates_fn.insert("test-1".to_string(), test_fn);
 
-  let db = Arc::new(RwLock::new(rapiddb::db::MMAVAsyncDatabase::new_with_all(
+  let db = Arc::new(RwLock::new(rapiddb_web::rapiddb::db::MMAVAsyncDatabase::new_with_all(
     ".db",
     aggregates_fn,
   )));
 
-  warp::serve(rapiddb::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
+  warp::serve(rapiddb_web::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
 }
 ```
