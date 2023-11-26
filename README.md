@@ -38,7 +38,7 @@ Run database with docker
 docker run -dit --rm -p 3030:3030 --name rapiddb kruserr/rapiddb:0.1
 ```
 
-[Further install options](docs/install-README.md)
+[Further install options](docs/install.md)
 
 ### Interact with the database using curl
 Write to database with curl
