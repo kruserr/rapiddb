@@ -11,7 +11,7 @@ keywords = ["database", "embedded-database", "db", "persistence", "key-value"]
 categories = ["database", "database-implementations", "caching"]
 
 [dependencies]
-rapiddb = { path = "../rapiddb" }
+rapiddb = { version = "0.1", path = "../rapiddb" }
 
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
