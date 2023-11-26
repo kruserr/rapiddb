@@ -6,8 +6,10 @@ use tokio::sync::RwLock;
 
 #[tokio::main]
 async fn main() {
-  let mut aggregates_fn: HashMap<String, rapiddb_web::rapiddb::types::AggregateFn> =
-    Default::default();
+  let mut aggregates_fn: HashMap<
+    String,
+    rapiddb_web::rapiddb::types::AggregateFn,
+  > = Default::default();
 
   let test_fn = Arc::new(Mutex::new(
     |_: &str, value: &[u8], aggregate: &Arc<Mutex<Vec<u8>>>| {
@@ -46,10 +48,12 @@ async fn main() {
   aggregates_fn.insert("test-0".to_string(), test_fn.clone());
   aggregates_fn.insert("test-1".to_string(), test_fn);
 
-  let db = Arc::new(RwLock::new(rapiddb_web::rapiddb::db::MMAVAsyncDatabase::new_with_all(
-    ".db",
-    aggregates_fn,
-  )));
+  let db = Arc::new(RwLock::new(
+    rapiddb_web::rapiddb::db::MMAVAsyncDatabase::new_with_all(
+      ".db",
+      aggregates_fn,
+    ),
+  ));
 
   warp::serve(rapiddb_web::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
 }
