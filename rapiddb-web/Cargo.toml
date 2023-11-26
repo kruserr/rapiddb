@@ -1,24 +1,22 @@
 [package]
-name = "rapiddb"
+name = "rapiddb-web"
 version = "0.1.20" # prepare_release.sh
 publish = true
 edition = "2021"
 license = "AGPL-3.0"
-readme = "./README.md"
+readme = "../README.md"
 repository = "https://github.com/kruserr/rapiddb/"
 description = "A reasonably fast configurable embedded key-value sensor database"
 keywords = ["database", "embedded-database", "db", "persistence", "key-value"]
 categories = ["database", "database-implementations", "caching"]
 
 [dependencies]
-tokio = { version = "1", features = ["sync"] }
+rapiddb = { path = "../rapiddb" }
+
+tokio = { version = "1", features = ["full"] }
+warp = "0.3"
 serde = "1.0"
 serde_json = "1.0"
-memmap2 = "0.9"
-async-trait = "0.1"
-
-[dev-dependencies]
-tokio-test = "0.4"
 
 [lib]
 #doctest = false

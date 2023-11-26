@@ -79,6 +79,7 @@ jobs:
       - name: Publish
         run: |
           cargo publish -p rapiddb --token ${{ secrets.CARGO_TOKEN }}
+          cargo publish -p rapiddb-web --token ${{ secrets.CARGO_TOKEN }}
 
   publish-docker:
     name: Publish on GitHub Packages and Docker Hub

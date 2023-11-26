@@ -8,5 +8,5 @@ RUN cargo build --release
 
 FROM docker.io/debian:bookworm-slim
 WORKDIR /usr/src/app
-COPY --from=builder /usr/src/app/target/release/rapiddb ./
-CMD /usr/src/app/rapiddb
+COPY --from=builder /usr/src/app/target/release/rapiddb-web ./
+CMD /usr/src/app/rapiddb-web

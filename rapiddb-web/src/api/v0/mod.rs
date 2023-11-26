@@ -14,7 +14,7 @@ mod sensors_meta;
 
 use warp::{Filter, Rejection, Reply};
 
-use crate::traits::IAsyncDatabase;
+use rapiddb::traits::IAsyncDatabase;
 
 /// Sensor API Endpoints
 pub fn endpoints(

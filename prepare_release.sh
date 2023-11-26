@@ -16,7 +16,9 @@ ci () {
 bump_version () {
   # update the Cargo.toml version of the rapiddb workspaces
   msg="# prepare_release.sh"
+
   sed "s/^version = .* $msg$/version = \"${1#v}\" $msg/" -i rapiddb/Cargo.toml
+  sed "s/^version = .* $msg$/version = \"${1#v}\" $msg/" -i rapiddb-web/Cargo.toml
 
   cargo check
 }

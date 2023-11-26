@@ -1,4 +1,5 @@
-use crate::{api::helpers::with_db, traits::IAsyncDatabase};
+use crate::api::helpers::with_db;
+use rapiddb::traits::IAsyncDatabase;
 
 use warp::{Filter, Rejection, Reply};
 
@@ -62,7 +63,7 @@ pub async fn _post(
 #[tokio::test]
 async fn test_get() {
   let database_test_factory =
-    crate::db::DatabaseTestFactory::new(".temp/test/sensor_meta/test_get");
+    rapiddb::db::DatabaseTestFactory::new(".temp/test/sensor_meta/test_get");
 
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());
@@ -119,7 +120,7 @@ async fn test_get() {
 #[tokio::test]
 async fn test_post() {
   let database_test_factory =
-    crate::db::DatabaseTestFactory::new(".temp/test/sensor_meta/test_post");
+    rapiddb::db::DatabaseTestFactory::new(".temp/test/sensor_meta/test_post");
 
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());

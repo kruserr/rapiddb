@@ -1,4 +1,5 @@
-use crate::{api::helpers::with_db, traits::IAsyncDatabase};
+use crate::api::helpers::with_db;
+use rapiddb::traits::IAsyncDatabase;
 
 use warp::{Filter, Rejection, Reply};
 
@@ -50,7 +51,7 @@ pub async fn _get(
 
 #[tokio::test]
 async fn test_get() {
-  let database_test_factory = crate::db::DatabaseTestFactory::new(
+  let database_test_factory = rapiddb::db::DatabaseTestFactory::new(
     ".temp/test/sensors_latest_limit/test_get",
   );
 

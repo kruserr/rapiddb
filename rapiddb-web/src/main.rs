@@ -4,5 +4,5 @@ async fn main() {
     rapiddb::db::MMAVAsyncDatabase::new(),
   ));
 
-  warp::serve(rapiddb::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
+  warp::serve(rapiddb_web::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
 }

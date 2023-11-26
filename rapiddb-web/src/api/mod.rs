@@ -4,7 +4,7 @@ mod api_endpoint;
 pub mod helpers;
 mod v0;
 
-use crate::traits::IAsyncDatabase;
+use rapiddb::traits::IAsyncDatabase;
 use warp::{Filter, Rejection, Reply};
 
 /// Sensor API Endpoints

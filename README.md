@@ -32,7 +32,7 @@ A reasonably fast configurable embedded key-value sensor database
 - Bring your own database or API implementation
 
 ## Documentation
-Visit the [Documentation](https://docs.rs/rapiddb).
+Visit the [Documentation](https://docs.rs/rapiddb-web).
 
 ## Getting Started
 ### Docker
@@ -54,7 +54,7 @@ Add the following to your dependencies in Cargo.toml
 ```toml
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
-rapiddb = "0.1"
+rapiddb-web = "0.1"
 ```
 
 Paste the following to your main.rs
@@ -62,10 +62,10 @@ Paste the following to your main.rs
 #[tokio::main]
 async fn main() {
   let db = std::sync::Arc::new(tokio::sync::RwLock::new(
-    rapiddb::db::MMAVAsyncDatabase::new(),
+    rapiddb_web::rapiddb::db::MMAVAsyncDatabase::new(),
   ));
 
-  warp::serve(rapiddb::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
+  warp::serve(rapiddb_web::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
 }
 ```
 
@@ -101,23 +101,41 @@ yourself, for your own database. Explore the docs to learn more, or
 look at the examples below, or inside the repo.
 
 ## Examples
-Using the database directly
+### Using the database directly without the REST API
+The database can be used by itself without building the REST API, by using the [rapiddb](https://crates.io/crates/rapiddb) crate instead of the [rapiddb-web](https://crates.io/crates/rapiddb-web) crate.
+
+Cargo.toml
+```toml
+rapiddb = "0.1"
+```
+
 ```rust
 use rapiddb::traits::IDatabase;
 
-let db = std::sync::Arc::new(
-  std::sync::RwLock::new(
-    rapiddb::db::MMAVDatabase::new()
-  )
-);
+pub fn main() {
+  let db = std::sync::Arc::new(
+    std::sync::RwLock::new(
+      rapiddb::db::MMAVDatabase::new()
+    )
+  );
 
-let value = b"{\"key\": \"value\"}";
-db.write().unwrap().post("test-0", value);
-assert_eq!(db.write().unwrap().get_latest("test-0"), value);
+  let value = b"{\"key\": \"value\"}";
+  db.write().unwrap().post("test-0", value);
+  assert_eq!(db.write().unwrap().get_latest("test-0"), value);
+}
 ```
 
+### Extending the REST API
 Extending the functionality of the REST API with custom endpoints
 using warp Filters and custom aggregates
+
+Cargo.toml
+```toml
+tokio = { version = "1", features = ["full"] }
+warp = "0.3"
+rapiddb-web = "0.1"
+```
+
 ```rust
 use std::{
   collections::HashMap,
@@ -127,7 +145,7 @@ use tokio::sync::RwLock;
 
 #[tokio::main]
 async fn main() {
-  let mut aggregates_fn: HashMap<String, rapiddb::types::AggregateFn> =
+  let mut aggregates_fn: HashMap<String, rapiddb_web::rapiddb::types::AggregateFn> =
     Default::default();
 
   let test_fn = Arc::new(Mutex::new(
@@ -167,11 +185,11 @@ async fn main() {
   aggregates_fn.insert("test-0".to_string(), test_fn.clone());
   aggregates_fn.insert("test-1".to_string(), test_fn);
 
-  let db = Arc::new(RwLock::new(rapiddb::db::MMAVAsyncDatabase::new_with_all(
+  let db = Arc::new(RwLock::new(rapiddb_web::rapiddb::db::MMAVAsyncDatabase::new_with_all(
     ".db",
     aggregates_fn,
   )));
 
-  warp::serve(rapiddb::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
+  warp::serve(rapiddb_web::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
 }
 ```

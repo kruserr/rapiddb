@@ -18,7 +18,7 @@ pub fn get() -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
 #[tokio::test]
 async fn test_get() {
   let database_test_factory =
-    crate::db::DatabaseTestFactory::new(".temp/test/api_v0/test_get");
+    rapiddb::db::DatabaseTestFactory::new(".temp/test/api_v0/test_get");
 
   for db in database_test_factory.get_instance().values() {
     let api = super::endpoints((*db).clone());
