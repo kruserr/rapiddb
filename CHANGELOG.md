@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.21] - 2023-11-26
+
+### Documentation
+
+- #15: update documentation
+- #15: update documentation
+- #15: add example using the db without web
+
+### Features
+
+- #15: extract api into rapiddb-web
+- #15: extract api into rapiddb-web
+- #15: extract api into rapiddb-web
+- #15: extract api into rapiddb-web
+- #15: use rapiddb-web in docker container
+
+### Styling
+
+- Fmt
+
+### Ci
+
+- #15: publish rapiddb-web seperatly
+
 ## [0.1.20] - 2023-11-25
 
 ### Features
