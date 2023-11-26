@@ -11,12 +11,13 @@ keywords = ["database", "embedded-database", "db", "persistence", "key-value"]
 categories = ["database", "database-implementations", "caching"]
 
 [dependencies]
-tokio = { version = "1", features = ["full"] }
-warp = "0.3"
+tokio = { version = "1", features = ["sync"] }
 serde = "1.0"
-memmap2 = "0.9"
 serde_json = "1.0"
+memmap2 = "0.9"
 async-trait = "0.1"
+
+[dev-dependencies]
 tokio-test = "0.4"
 
 [lib]

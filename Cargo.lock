@@ -644,20 +644,16 @@ dependencies = [
  "serde_json",
  "tokio",
  "tokio-test",
- "warp",
 ]
 
 [[package]]
 name = "rapiddb-web"
 version = "0.1.20"
 dependencies = [
- "async-trait",
- "memmap2",
  "rapiddb",
  "serde",
  "serde_json",
  "tokio",
- "tokio-test",
  "warp",
 ]
 
