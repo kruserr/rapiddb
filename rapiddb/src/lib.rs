@@ -29,19 +29,13 @@
 //! A reasonably fast configurable embedded key-value sensor database
 //!
 //! ## Features
+//! - Lightweight embedded database
 //! - Simple key-value database interface
 //! - Simple and flexible optional embedded REST API
 //! - Memory first with on-disk persistence
-//! - Lightweight embedded database
 //! - Memory Mapped Append-only Vector backing storage
 //! - Bring your own database or API implementation
 //! - Store sensor data inside a sensor database
-//!
-//! ## Documentation
-//! Visit the [Documentation](https://docs.rs/rapiddb).
-//!
-//! ## Optional REST API
-//! Visit the [rapiddb-web crates.io page](https://crates.io/crates/rapiddb-web).
 //!
 //! ## Getting started
 //! Cargo.toml
@@ -67,6 +61,9 @@
 //! ```sh
 //! cargo run --release
 //! ```
+//!
+//! ## Optional REST API
+//! Visit [further install options](https://github.com/kruserr/rapiddb/blob/main/docs/install.md#add-to-your-cargo-project).
 //!
 //! ## Documentation
 //! Visit the [Documentation](https://docs.rs/rapiddb).

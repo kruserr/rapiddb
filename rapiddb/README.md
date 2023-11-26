@@ -31,9 +31,6 @@ A reasonably fast configurable embedded key-value sensor database
 - Bring your own database or API implementation
 - Store sensor data inside a sensor database
 
-## Optional REST API
-Visit [further install options](https://github.com/kruserr/rapiddb/blob/main/docs/install.md#add-to-your-cargo-project).
-
 ## Getting started
 Cargo.toml
 ```toml
@@ -58,6 +55,9 @@ Run the database with cargo
 ```sh
 cargo run --release
 ```
+
+## Optional REST API
+Visit [further install options](https://github.com/kruserr/rapiddb/blob/main/docs/install.md#add-to-your-cargo-project).
 
 ## Documentation
 Visit the [Documentation](https://docs.rs/rapiddb).
