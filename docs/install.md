@@ -33,6 +33,8 @@ Run the database with cargo
 cargo run --release
 ```
 
+[Use the database with curl](https://github.com/kruserr/rapiddb/blob/main/README.md#use-the-database-with-curl)
+
 ### Using the database directly without the REST API
 The database can be used by itself without building the REST API, by using the [rapiddb](https://crates.io/crates/rapiddb) crate instead of the [rapiddb-web](https://crates.io/crates/rapiddb-web) crate.
 
