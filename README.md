@@ -32,7 +32,7 @@ A reasonably fast configurable embedded key-value sensor database
 - Bring your own database or API implementation
 
 ## Documentation
-Visit the [Documentation](https://docs.rs/rapiddb).
+Visit the [Documentation](https://docs.rs/rapiddb-web).
 
 ## Getting Started
 ### Docker
@@ -54,7 +54,7 @@ Add the following to your dependencies in Cargo.toml
 ```toml
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
-rapiddb = "0.1"
+rapiddb-web = "0.1"
 ```
 
 Paste the following to your main.rs

@@ -37,7 +37,7 @@
 //! - Bring your own database or API implementation
 //!
 //! ## Documentation
-//! Visit the [Documentation](https://docs.rs/rapiddb).
+//! Visit the [Documentation](https://docs.rs/rapiddb-web).
 //!
 //! ## Getting Started
 //! ### Docker
@@ -59,7 +59,7 @@
 //! ```toml
 //! tokio = { version = "1", features = ["full"] }
 //! warp = "0.3"
-//! rapiddb = "0.1"
+//! rapiddb-web = "0.1"
 //! ```
 //!
 //! Paste the following to your main.rs

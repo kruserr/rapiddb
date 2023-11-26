@@ -39,6 +39,9 @@
 //! ## Documentation
 //! Visit the [Documentation](https://docs.rs/rapiddb).
 //!
+//! ## Optional REST API
+//! Visit the [rapiddb-web crates.io page](https://crates.io/crates/rapiddb-web).
+//!
 //! ## Examples
 //! Using the database directly
 //! ```no_run
