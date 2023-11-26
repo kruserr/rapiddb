@@ -5,7 +5,7 @@ publish = false
 edition = "2021"
 
 [dependencies]
-rapiddb = { path = "../rapiddb" }
+rapiddb-web = { path = "../rapiddb-web" }
 
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"

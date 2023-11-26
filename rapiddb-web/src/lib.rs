@@ -63,7 +63,7 @@
 //! ```
 //!
 //! Paste the following to your main.rs
-//! ```no_run
+//! ```ignore
 //! #[tokio::main]
 //! async fn main() {
 //!   let db = std::sync::Arc::new(tokio::sync::RwLock::new(
@@ -107,7 +107,7 @@
 //!
 //! ## Examples
 //! Using the database directly
-//! ```no_run
+//! ```ignore
 //! use rapiddb::traits::IDatabase;
 //!
 //! let db = std::sync::Arc::new(
@@ -123,7 +123,7 @@
 //!
 //! Extending the functionality of the REST API with custom endpoints
 //! using warp Filters and custom aggregates
-//! ```no_run
+//! ```ignore
 //! use std::{
 //!   collections::HashMap,
 //!   sync::{Arc, Mutex},
@@ -182,3 +182,4 @@
 //! ```
 
 pub mod api;
+pub use rapiddb;
