@@ -5,6 +5,7 @@ publish = false
 edition = "2021"
 
 [dependencies]
+# rapiddb = { path = "../rapiddb" }
 rapiddb-web = { path = "../rapiddb-web" }
 
 tokio = { version = "1", features = ["full"] }
@@ -19,3 +20,7 @@ path = "init.rs"
 [[example]]
 name = "bench-mmav"
 path = "bench-mmav.rs"
+
+# [[example]]
+# name = "only-db"
+# path = "only-db.rs"

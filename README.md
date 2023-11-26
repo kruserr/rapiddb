@@ -101,23 +101,41 @@ yourself, for your own database. Explore the docs to learn more, or
 look at the examples below, or inside the repo.
 
 ## Examples
-Using the database directly
-```rust
-use rapiddb_web::rapiddb::traits::IDatabase;
+### Using the database directly without the REST API
+The database can be used by itself without building the REST API, by using the [rapiddb](https://crates.io/crates/rapiddb) crate instead of the [rapiddb-web](https://crates.io/crates/rapiddb-web) crate.
 
-let db = std::sync::Arc::new(
-  std::sync::RwLock::new(
-    rapiddb_web::rapiddb::db::MMAVDatabase::new()
-  )
-);
-
-let value = b"{\"key\": \"value\"}";
-db.write().unwrap().post("test-0", value);
-assert_eq!(db.write().unwrap().get_latest("test-0"), value);
+Cargo.toml
+```toml
+rapiddb = "0.1"
 ```
 
+```rust
+use rapiddb::traits::IDatabase;
+
+pub fn main() {
+  let db = std::sync::Arc::new(
+    std::sync::RwLock::new(
+      rapiddb::db::MMAVDatabase::new()
+    )
+  );
+
+  let value = b"{\"key\": \"value\"}";
+  db.write().unwrap().post("test-0", value);
+  assert_eq!(db.write().unwrap().get_latest("test-0"), value);
+}
+```
+
+### Extending the REST API
 Extending the functionality of the REST API with custom endpoints
 using warp Filters and custom aggregates
+
+Cargo.toml
+```toml
+tokio = { version = "1", features = ["full"] }
+warp = "0.3"
+rapiddb-web = "0.1"
+```
+
 ```rust
 use std::{
   collections::HashMap,
