@@ -32,7 +32,7 @@ A reasonably fast configurable embedded key-value sensor database
 - Store sensor data inside a sensor database
 
 ## Optional REST API
-Visit the [rapiddb-web crates.io page](https://crates.io/crates/rapiddb-web).
+Visit [further install options](https://github.com/kruserr/rapiddb/blob/main/docs/install.md#add-to-your-cargo-project).
 
 ## Getting started
 Cargo.toml
