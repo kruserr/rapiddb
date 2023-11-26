@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.22] - 2023-11-26
+
+### Build
+
+- Add version to rapiddb to fix cargo publish
+
 ## [0.1.21] - 2023-11-26
 
 ### Documentation
