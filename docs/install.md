@@ -12,6 +12,7 @@ cargo run --release
 ### Add to your cargo project
 Cargo.toml
 ```toml
+[dependencies]
 tokio = { version = "1", features = ["full"] }
 warp = "0.3"
 rapiddb-web = "0.1"
@@ -37,6 +38,7 @@ The database can be used by itself without building the REST API, by using the [
 
 Cargo.toml
 ```toml
+[dependencies]
 rapiddb = "0.1"
 ```
 
