@@ -2,7 +2,6 @@ use std::{
   collections::HashMap,
   sync::{Arc, Mutex},
 };
-use tokio::sync::RwLock;
 
 #[tokio::main]
 async fn main() {
@@ -48,12 +47,10 @@ async fn main() {
   aggregates_fn.insert("test-0".to_string(), test_fn.clone());
   aggregates_fn.insert("test-1".to_string(), test_fn);
 
-  let db = Arc::new(RwLock::new(
-    rapiddb_web::rapiddb::db::MMAVAsyncDatabase::new_with_all(
-      ".db",
-      aggregates_fn,
-    ),
-  ));
+  let db = rapiddb_web::rapiddb::db::MMAVAsyncDatabase::new_with_all(
+    ".db",
+    aggregates_fn,
+  );
 
   warp::serve(rapiddb_web::api::endpoints(db)).run(([0, 0, 0, 0], 3030)).await;
 }

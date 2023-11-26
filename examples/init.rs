@@ -97,7 +97,8 @@ async fn main() {
   assert_eq!(db.write().await.get_latest("test-0").await, value);
 
   warp::serve(
-    rapiddb_web::api::endpoints(db.clone()).or(get_latest_custom(db)),
+    rapiddb_web::api::endpoints_with_arc_rwlock(db.clone())
+      .or(get_latest_custom(db)),
   )
   .run(([0, 0, 0, 0], 3030))
   .await;

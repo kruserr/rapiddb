@@ -20,7 +20,7 @@ async fn test_get() {
     rapiddb::db::DatabaseTestFactory::new(".temp/test/api_endpoint/test_get");
 
   for db in database_test_factory.get_instance().values() {
-    let api = super::endpoints((*db).clone());
+    let api = super::endpoints_with_arc_rwlock((*db).clone());
 
     let resp =
       warp::test::request().method("GET").path("/api").reply(&api).await;
