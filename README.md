@@ -40,7 +40,7 @@ docker run -dit --rm -p 3030:3030 --name rapiddb kruserr/rapiddb:0.1
 
 [Further install options](docs/install.md)
 
-### Interact with the database using curl
+### Use the database with curl
 Write to database with curl
 ```bash
 curl -X POST localhost:3030/api/v0/test-0 -H 'Content-Type: application/json' -d '{"temp":4.00}'
