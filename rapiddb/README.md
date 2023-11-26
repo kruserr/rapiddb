@@ -23,16 +23,13 @@
 A reasonably fast configurable embedded key-value sensor database
 
 ## Features
-- Simple and flexible optional embedded REST API
-- Simple key-value database interface
 - Lightweight embedded database
-- Store sensor data inside a sensor database
+- Simple key-value database interface
+- Simple and flexible optional embedded REST API
 - Memory first with on-disk persistence
 - Memory Mapped Append-only Vector backing storage
 - Bring your own database or API implementation
-
-## Documentation
-Visit the [Documentation](https://docs.rs/rapiddb).
+- Store sensor data inside a sensor database
 
 ## Optional REST API
 Visit the [rapiddb-web crates.io page](https://crates.io/crates/rapiddb-web).
@@ -42,13 +39,15 @@ Using the database directly
 ```rust
 use rapiddb::traits::IDatabase;
 
-let db = std::sync::Arc::new(
-  std::sync::RwLock::new(
-    rapiddb::db::MMAVDatabase::new()
-  )
-);
+let mut db = rapiddb::db::MMAVDatabase::new();
 
 let value = b"{\"key\": \"value\"}";
-db.write().unwrap().post("test-0", value);
-assert_eq!(db.write().unwrap().get_latest("test-0"), value);
+db.post("test-0", value);
+assert_eq!(db.get_latest("test-0"), value);
 ```
+
+## Documentation
+Visit the [Documentation](https://docs.rs/rapiddb).
+
+## Examples
+Visit the [Examples](https://github.com/kruserr/rapiddb/tree/main/examples).

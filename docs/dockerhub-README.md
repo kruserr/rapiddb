@@ -23,16 +23,13 @@
 A reasonably fast configurable embedded key-value sensor database
 
 ## Features
-- Simple and flexible optional embedded REST API
-- Simple key-value database interface
 - Lightweight embedded database
-- Store sensor data inside a sensor database
+- Simple key-value database interface
+- Simple and flexible optional embedded REST API
 - Memory first with on-disk persistence
 - Memory Mapped Append-only Vector backing storage
 - Bring your own database or API implementation
-
-## Documentation
-Visit the [Documentation](https://docs.rs/rapiddb).
+- Store sensor data inside a sensor database
 
 ## Getting Started
 ### Docker
@@ -58,3 +55,9 @@ curl localhost:3030/api/v0
 curl localhost:3030/api/v0/sensors
 curl localhost:3030/api/v0/test-0
 ```
+
+## Documentation
+Visit the [Documentation](https://docs.rs/rapiddb).
+
+## Examples
+Visit the [Examples](https://github.com/kruserr/rapiddb/tree/main/examples).
