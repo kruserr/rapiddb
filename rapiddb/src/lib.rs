@@ -2,6 +2,7 @@
   html_logo_url = "https://raw.githubusercontent.com/kruserr/rapiddb/main/assets/logo/logo.svg",
   html_favicon_url = "https://raw.githubusercontent.com/kruserr/rapiddb/main/assets/logo/favicon.ico"
 )]
+#![allow(clippy::needless_doctest_main)]
 
 //! <p align="center">
 //!   <a href="https://github.com/kruserr/rapiddb" target="_blank">
@@ -42,16 +43,29 @@
 //! ## Optional REST API
 //! Visit the [rapiddb-web crates.io page](https://crates.io/crates/rapiddb-web).
 //!
-//! ## Examples
-//! Using the database directly
-//! ```no_run
+//! ## Getting started
+//! Cargo.toml
+//! ```toml
+//! [dependencies]
+//! rapiddb = "0.1"
+//! ```
+//!
+//! src/main.rs
+//! ```rust
 //! use rapiddb::traits::IDatabase;
 //!
-//! let mut db = rapiddb::db::MMAVDatabase::new();
+//! pub fn main() {
+//!   let mut db = rapiddb::db::MMAVDatabase::new();
 //!
-//! let value = b"{\"key\": \"value\"}";
-//! db.post("test-0", value);
-//! assert_eq!(db.get_latest("test-0"), value);
+//!   let value = b"{\"key\": \"value\"}";
+//!   db.post("test-0", value);
+//!   assert_eq!(db.get_latest("test-0"), value);
+//! }
+//! ```
+//!
+//! Run the database with cargo
+//! ```sh
+//! cargo run --release
 //! ```
 //!
 //! ## Documentation
