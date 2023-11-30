@@ -27,3 +27,4 @@ bench-2022-06-21/
 bench-2022-06-23/
 venv/
 .env
+test.db
