@@ -43,12 +43,12 @@ fn main() {
   //   None => println!("Record not found"),
   // }
 
-    let mut db = Database::new("test.db", 100).unwrap();
+    let mut db = Database::new("test.db", 100, 1024).unwrap();
 
     let key0 = "test";
     let value0 = vec![1, 2, 3];
 
-    // db.put(Record { id: key0.to_owned(), value: value0.clone() });
+    db.put(Record { id: key0.to_owned(), value: value0.clone() });
 
     match db.get(key0) {
         Some(record) => assert_eq!(record.value, value0),
