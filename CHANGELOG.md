@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.23] - 2024-01-23
+
+### Documentation
+
+- Add dockerhub readme
+- Cleanup docs to include
+- Dont use arc rwlock
+- Remove README suffix
+- Refactor
+- Add dependencies to Cargo.toml
+- Update docs
+- Link to further install options for rest api
+- Update docs
+- Update
+- Update
+- Update
+
+### Features
+
+- [**breaking**] Expose endpoints_with_arc_rwlock and without to make api cleaner
+
+### Build
+
+- Update gitignore
+- Cargo update
+- Use rust 1.75
+
+### Ci
+
+- Add local ci script
+
 ## [0.1.22] - 2023-11-26
 
 ### Build
