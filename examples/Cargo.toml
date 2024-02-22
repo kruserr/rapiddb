@@ -4,6 +4,12 @@ version = "0.0.0"
 publish = false
 edition = "2021"
 
+[lints]
+workspace = true
+
+# [lib]
+#doctest = false
+
 [dependencies]
 # rapiddb = { path = "../rapiddb" }
 rapiddb-web = { path = "../rapiddb-web" }
