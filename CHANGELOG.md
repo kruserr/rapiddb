@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.24] - 2024-02-22
+
+### Bug Fixes
+
+- Update only-db example
+
+### Documentation
+
+- Remove content-type from curl
+
+### Build
+
+- Update to rust 1.76
+- Update Cargo.lock
+- Disable toolchain file
+- Remove toolchain file
+
+### Ci
+
+- Set workspace lints
+
 ## [0.1.23] - 2024-01-23
 
 ### Documentation
