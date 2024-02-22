@@ -8,3 +8,9 @@ members = [
   # Internal
   "examples",
 ]
+
+[workspace.lints.rust]
+unused_parens = "allow"
+
+[workspace.lints.clippy]
+needless_return = "allow"
