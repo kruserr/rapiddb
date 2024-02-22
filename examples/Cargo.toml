@@ -11,7 +11,7 @@ workspace = true
 #doctest = false
 
 [dependencies]
-# rapiddb = { path = "../rapiddb" }
+rapiddb = { path = "../rapiddb" }
 rapiddb-web = { path = "../rapiddb-web" }
 
 tokio = { version = "1", features = ["full"] }
@@ -27,6 +27,6 @@ path = "init.rs"
 name = "bench-mmav"
 path = "bench-mmav.rs"
 
-# [[example]]
-# name = "only-db"
-# path = "only-db.rs"
+[[example]]
+name = "only-db"
+path = "only-db.rs"
