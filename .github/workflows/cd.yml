@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE_NAME: rapiddb
-  IMAGE_LATEST: docker.pkg.github.com/kruserr/rapiddb/rapiddb:latest
+  IMAGE_CACHE: docker.pkg.github.com/kruserr/rapiddb/rapiddb:cache
 
 jobs:
   rustfmt:
@@ -98,7 +98,8 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            --cache-from $IMAGE_LATEST \
+            -f tooling/Dockerfile
+            --cache-from $IMAGE_CACHE \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --tag $IMAGE_NAME .
       - name: Login to GitHub Packages
@@ -130,6 +131,9 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION_MAJOR
           docker push $IMAGE_ID:$VERSION_MAJOR
+
+          docker tag $IMAGE_NAME $IMAGE_ID:latest
+          docker push $IMAGE_ID:latest
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Push image to Docker Hub
@@ -159,3 +163,6 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION_MAJOR
           docker push $IMAGE_ID:$VERSION_MAJOR
+
+          docker tag $IMAGE_NAME $IMAGE_ID:latest
+          docker push $IMAGE_ID:latest
