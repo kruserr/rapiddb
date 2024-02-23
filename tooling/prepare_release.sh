@@ -2,7 +2,7 @@
 
 # Example
 # ```sh
-# ./prepare_release.sh v0.1.18
+# ./prepare_release.sh 0.1.25
 # ```
 
 set -Eeuo pipefail
@@ -41,7 +41,7 @@ prepare_tag () {
   git tag -v "$1"
 }
 
-# takes the tag as an argument (e.g. v0.1.0)
+# takes the tag as an argument (e.g. 0.1.0)
 if [ -n $1 ]; then
   if [ $1 == "init" ]; then
     if [ -n $2 ]; then
