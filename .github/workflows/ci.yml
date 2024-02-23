@@ -57,7 +57,7 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            -f tooling/Dockerfile
+            -f tooling/Dockerfile \
             --cache-from $IMAGE_CACHE \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --tag $IMAGE_NAME .
