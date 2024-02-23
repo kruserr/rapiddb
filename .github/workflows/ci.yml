@@ -44,9 +44,10 @@ jobs:
       - name: Test
         run: cargo test
 
-  build-and-push:
-    runs-on: ubuntu-latest
-
+  publish-docker:
+    name: Publish on GitHub Packages and Docker Hub
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'push'
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
