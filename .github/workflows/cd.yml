@@ -3,7 +3,7 @@ name: cd
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "*.*.*"
 
 env:
   IMAGE_NAME: rapiddb
