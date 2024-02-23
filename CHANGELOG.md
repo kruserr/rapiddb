@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.28] - 2024-02-23
+
+### Documentation
+
+- Remove github releases shield
+
 ## [0.1.27] - 2024-02-23
 
 ### Ci
