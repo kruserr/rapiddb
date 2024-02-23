@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.27] - 2024-02-23
+
+### Ci
+
+- Dont use v tags
+
 ## [0.1.26] - 2024-02-23
 
 ### Ci
