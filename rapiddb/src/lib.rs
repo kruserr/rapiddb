@@ -10,13 +10,9 @@
 //!   </a>
 //!   <br/>
 //!   <br/>
-//!   <a href="https://github.com/kruserr/rapiddb/releases" target="_blank">
-//!     <img src="https://img.shields.io/github/v/release/kruserr/rapiddb?sort=semver&logo=GitHub&logoColor=white">
-//!   </a>
 //!   <a href="https://crates.io/crates/rapiddb" target="_blank">
 //!     <img src="https://img.shields.io/crates/v/rapiddb?logo=Rust&logoColor=white"/>
 //!   </a>
-//!   <br/>
 //!   <a href="https://hub.docker.com/r/kruserr/rapiddb" target="_blank">
 //!     <img src="https://img.shields.io/docker/v/kruserr/rapiddb?sort=semver&logo=docker&logoColor=white"/>
 //!   </a>
