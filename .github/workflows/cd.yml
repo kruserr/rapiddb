@@ -95,6 +95,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Login to GitHub Packages
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       - name: Build image
         run: |
           docker build \
@@ -102,8 +104,6 @@ jobs:
             --cache-from $IMAGE_CACHE \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --tag $IMAGE_NAME .
-      - name: Login to GitHub Packages
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       - name: Push image to GitHub Packages
         run: |
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
