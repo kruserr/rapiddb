@@ -10,7 +10,7 @@ on:
 
 env:
   IMAGE_NAME: rapiddb
-  IMAGE_LATEST: docker.pkg.github.com/kruserr/rapiddb/rapiddb:latest
+  IMAGE_CACHE: docker.pkg.github.com/kruserr/rapiddb/rapiddb:cache
 
 jobs:
   rustfmt:
@@ -57,7 +57,8 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            --cache-from $IMAGE_LATEST \
+            -f tooling/Dockerfile
+            --cache-from $IMAGE_CACHE \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --tag $IMAGE_NAME .
       - name: Login to GitHub Packages
@@ -69,8 +70,7 @@ jobs:
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
-          # Use Docker `latest` tag convention
-          VERSION=latest
+          VERSION=cache
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
@@ -83,8 +83,7 @@ jobs:
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
-          # Use Docker `latest` tag convention
-          VERSION=latest
+          VERSION=cache
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
