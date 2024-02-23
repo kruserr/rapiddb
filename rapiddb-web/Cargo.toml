@@ -1,6 +1,6 @@
 [package]
 name = "rapiddb-web"
-version = "0.1.24" # prepare_release.sh
+version = "0.1.25" # prepare_release.sh
 publish = true
 edition = "2021"
 license = "AGPL-3.0"

@@ -634,7 +634,7 @@ dependencies = [
 
 [[package]]
 name = "rapiddb"
-version = "0.1.24"
+version = "0.1.25"
 dependencies = [
  "async-trait",
  "memmap2",
@@ -646,7 +646,7 @@ dependencies = [
 
 [[package]]
 name = "rapiddb-web"
-version = "0.1.24"
+version = "0.1.25"
 dependencies = [
  "rapiddb",
  "serde",

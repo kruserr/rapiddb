@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.25] - 2024-02-23
+
+### Build
+
+- Move files to tooling
+
+### Ci
+
+- Update to use Dockerfile in tooling and use docker cache tag
+- Add missing \
+- Update release tooling
+- Login to github registry before pulling cache
+- Use ghcr.io
+- Use new docker build
+- Add tooling/Dockerfile
+- Use correct secrets
+- Set constraints
+- Use updated actions
+
 ## [0.1.24] - 2024-02-22
 
 ### Bug Fixes
