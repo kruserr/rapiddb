@@ -122,7 +122,7 @@ jobs:
     - name: Extract version
       id: extract_version
       run: |
-        VERSION=${GITHUB_REF#refs/tags/v}
+        VERSION=${GITHUB_REF#refs/tags/}
         echo "::set-output name=version::${VERSION}"
         echo "::set-output name=major::${VERSION%%.*}"
         echo "::set-output name=minor::${VERSION%.*}"
