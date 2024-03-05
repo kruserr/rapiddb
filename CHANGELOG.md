@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.29] - 2024-03-05
+
+### Build
+
+- Update deps to address CVE-2024-27308
+
 ## [0.1.28] - 2024-02-23
 
 ### Documentation
