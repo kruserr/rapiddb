@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.30] - 2024-05-26
+
+### Bug Fixes
+
+- Clippy warnings
+
+### Features
+
+- Use proper error handling in mmav and mmav_unit
+
+### Build
+
+- Cargo update
+- Use rust 1.78
+
 ## [0.1.29] - 2024-03-05
 
 ### Build
