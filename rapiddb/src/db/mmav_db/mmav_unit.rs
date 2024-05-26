@@ -44,6 +44,7 @@ impl MMAVUnit {
       .read(true)
       .write(true)
       .create(true)
+      .truncate(false)
       .open(file_name)
       .unwrap_or_else(|error| {
         if error.kind() == std::io::ErrorKind::NotFound {
@@ -55,6 +56,7 @@ impl MMAVUnit {
           .read(true)
           .write(true)
           .create(true)
+          .truncate(false)
           .open(file_name)
           .unwrap()
       });
