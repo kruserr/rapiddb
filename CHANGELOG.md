@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.31] - 2024-05-26
+
+### Ci
+
+- Dont fail pipeline if codecov fails
+
 ## [0.1.30] - 2024-05-26
 
 ### Bug Fixes
