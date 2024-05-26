@@ -1,5 +1,5 @@
 use crate::db::mmav_db::mmav_unit::MMAVUnit;
-use crate::errors::MMAVError;
+use crate::errors::Error;
 
 /// Memory Mapped Append-only Vector
 ///
@@ -148,12 +148,15 @@ impl MMAV {
       return unit_map[&index].len();
     }
 
-    let unit = MMAVUnit::new(&format!("{id}/{index}"), size, data_start_index);
-    let result = unit.len();
+    let mut result: usize = Default::default();
 
-    unit_map.insert(index, unit);
+    let _ = MMAVUnit::new(&format!("{id}/{index}"), size, data_start_index)
+      .map(|unit| {
+        result = unit.len();
+        unit_map.insert(index, unit);
+      });
 
-    result
+    return result;
   }
 
   /// Load unit that contains `index`
@@ -231,11 +234,11 @@ impl MMAV {
   pub fn push(&mut self, value: &[u8]) {
     self.unit_map.get_mut(&self.index).unwrap().push(value).unwrap_or_else(
       |error| match error {
-        MMAVError::ArrayFull => {
+        Error::ArrayFull => {
           self.expand();
           self.push(value);
         }
-        MMAVError::FileFull => {
+        Error::FileFull => {
           self.expand();
           self.push(value);
         }

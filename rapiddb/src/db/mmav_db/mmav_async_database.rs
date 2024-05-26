@@ -107,6 +107,7 @@ impl MMAVAsyncDatabase {
             .read(true)
             .write(true)
             .create(true)
+            .truncate(false)
             .open(&file_name)
             .unwrap_or_else(|error| {
               if error.kind() == std::io::ErrorKind::NotFound {
@@ -126,6 +127,7 @@ impl MMAVAsyncDatabase {
                 .read(true)
                 .write(true)
                 .create(true)
+                .truncate(false)
                 .open(file_name)
                 .unwrap()
             });
@@ -155,7 +157,7 @@ impl Default for MMAVAsyncDatabase {
 #[async_trait::async_trait]
 impl IAsyncDatabase for MMAVAsyncDatabase {
   async fn contains(&self, id: &str) -> bool {
-    self.sensors.get(id).is_some()
+    self.sensors.contains_key(id)
   }
 
   async fn get(&mut self, id: &str, rec_id: usize) -> Vec<u8> {
@@ -215,6 +217,7 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
       .read(true)
       .write(true)
       .create(true)
+      .truncate(false)
       .open(&file_name)
       .unwrap_or_else(|error| {
         if error.kind() == std::io::ErrorKind::NotFound {
@@ -234,6 +237,7 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
           .read(true)
           .write(true)
           .create(true)
+          .truncate(false)
           .open(file_name)
           .unwrap()
       });
@@ -243,7 +247,7 @@ impl IAsyncDatabase for MMAVAsyncDatabase {
   }
 
   async fn get_aggregates(&self, id: &str) -> Vec<u8> {
-    if self.aggregates.get(id).is_none() {
+    if !self.aggregates.contains_key(id) {
       return Default::default();
     }
 
