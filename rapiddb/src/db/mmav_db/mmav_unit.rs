@@ -1,4 +1,4 @@
-use crate::errors::MMAVError;
+use crate::errors::Error;
 
 /// Memory Mapped Append-only Vector Unit
 ///
@@ -24,7 +24,6 @@ impl MMAVUnit {
   /// Memory Mapped Append-only Vector Unit Constructor
   ///
   /// ## Default params:
-  ///
   /// `size` = 4000000
   ///
   /// `data_start_index` = 80008
@@ -37,61 +36,53 @@ impl MMAVUnit {
   /// unit.push(data).unwrap_or_default();
   /// assert_eq!(unit.last(), data);
   /// ```
-  pub fn new(file_name: &str, size: usize, data_start_index: usize) -> Self {
-    let file_did_exist = std::path::Path::new(file_name).exists();
+  pub fn new(
+    file_name: &str,
+    size: usize,
+    data_start_index: usize,
+  ) -> Result<Self, Error> {
+    let file_path = std::path::Path::new(file_name);
+    let file_exists = file_path.exists();
+
+    if (!file_exists) {
+      file_path.parent().map(std::fs::create_dir_all);
+    }
 
     let file = std::fs::OpenOptions::new()
       .read(true)
       .write(true)
       .create(true)
       .truncate(false)
-      .open(file_name)
-      .unwrap_or_else(|error| {
-        if error.kind() == std::io::ErrorKind::NotFound {
-          std::fs::create_dir(file_name.split('/').collect::<Vec<_>>()[0])
-            .unwrap_or_default();
-        }
+      .open(file_name)?;
 
-        std::fs::OpenOptions::new()
-          .read(true)
-          .write(true)
-          .create(true)
-          .truncate(false)
-          .open(file_name)
-          .unwrap()
-      });
+    file.set_len(size as u64)?;
 
-    file.set_len(size as u64).unwrap_or_default();
-
-    let mut mmap = unsafe { memmap2::MmapMut::map_mut(&file).unwrap() };
+    let mut mmap = unsafe { memmap2::MmapMut::map_mut(&file)? };
     mmap.advise(memmap2::Advice::Random).unwrap_or_default();
 
     let mut seek = data_start_index;
-    if file_did_exist {
-      seek = u32::from_ne_bytes(mmap[0..4].try_into().unwrap()) as usize;
+    if (file_exists) {
+      seek = u32::from_ne_bytes(mmap[0..4].try_into()?) as usize;
 
       if seek > mmap.len() {
-        panic!(
-          "seek_index must be between {data_start_index} and {}",
-          mmap.len()
-        );
+        return Err(Error::IndexOutOfRange);
       }
     }
 
     let mut seek_index = 8;
-    if file_did_exist {
-      seek_index = u32::from_ne_bytes(mmap[4..8].try_into().unwrap()) as usize;
+    if (file_exists) {
+      seek_index = u32::from_ne_bytes(mmap[4..8].try_into()?) as usize;
 
       if seek_index > data_start_index {
-        panic!("seek_index must be between 8 and {data_start_index}");
+        return Err(Error::IndexOutOfRange);
       }
     }
 
-    if mmap[seek] == 0 {
+    if (mmap[seek] == 0) {
       mmap[seek] = 0;
     }
 
-    Self { seek, seek_index, mmap, data_start_index }
+    return Ok(Self { seek, seek_index, mmap, data_start_index });
   }
 
   /// Set seek to `len`
@@ -118,12 +109,6 @@ impl MMAVUnit {
 
   /// Push `value` to vector
   ///
-  /// ## Errors
-  /// ```ignore
-  /// MMAVError::ArrayFull
-  /// MMAVError::FileFull
-  /// ```
-  ///
   /// ## Examples
   /// ```ignore
   /// let mut unit = MMAVUnit::new("test-0/0", 4000000, 80008);
@@ -132,13 +117,13 @@ impl MMAVUnit {
   /// unit.push(data).unwrap_or_default();
   /// assert_eq!(unit.last(), data);
   /// ```
-  pub fn push(&mut self, value: &[u8]) -> Result<(), MMAVError> {
+  pub fn push(&mut self, value: &[u8]) -> Result<(), Error> {
     if self.len() > 9999 {
-      return Err(MMAVError::ArrayFull);
+      return Err(Error::ArrayFull);
     }
 
     if self.seek + value.len() > self.mmap.len() {
-      return Err(MMAVError::FileFull);
+      return Err(Error::FileFull);
     }
 
     self.mmap[self.seek..self.seek + value.len()].clone_from_slice(value);
@@ -149,13 +134,6 @@ impl MMAVUnit {
 
   /// Get `index` from vector
   ///
-  /// ## Errors
-  /// ```ignore
-  /// MMAVError::ArrayEmpty
-  /// MMAVError::IndexOutOfRange
-  /// MMAVError::IndexOutOfBounds
-  /// ```
-  ///
   /// ## Examples
   /// ```ignore
   /// let mut unit = MMAVUnit::new("test-0/0", 4000000, 80008);
@@ -164,32 +142,30 @@ impl MMAVUnit {
   /// unit.push(data).unwrap_or_default();
   /// assert_eq!(unit.get(0), data);
   /// ```
-  pub fn get(&self, index: usize) -> Result<Vec<u8>, MMAVError> {
+  pub fn get(&self, index: usize) -> Result<Vec<u8>, Error> {
     if self.seek_index == 8 {
-      return Err(MMAVError::ArrayEmpty);
+      return Err(Error::ArrayEmpty);
     }
 
     if index > 9999 {
-      return Err(MMAVError::IndexOutOfRange);
+      return Err(Error::IndexOutOfRange);
     }
 
     if index > self.len() - 1 {
-      return Err(MMAVError::IndexOutOfBounds);
+      return Err(Error::IndexOutOfBounds);
     }
 
     let i = 8 * index + 8;
 
-    let start =
-      u32::from_ne_bytes(self.mmap[i..i + 4].try_into().unwrap()) as usize;
-    let end =
-      u32::from_ne_bytes(self.mmap[i + 4..i + 8].try_into().unwrap()) as usize;
+    let start = u32::from_ne_bytes(self.mmap[i..i + 4].try_into()?) as usize;
+    let end = u32::from_ne_bytes(self.mmap[i + 4..i + 8].try_into()?) as usize;
 
     if start < self.data_start_index || start > self.mmap.len() {
-      return Err(MMAVError::IndexOutOfRange);
+      return Err(Error::IndexOutOfRange);
     }
 
     if end < self.data_start_index || end > self.mmap.len() {
-      return Err(MMAVError::IndexOutOfRange);
+      return Err(Error::IndexOutOfRange);
     }
 
     Ok((self.mmap[start..end]).to_vec())
