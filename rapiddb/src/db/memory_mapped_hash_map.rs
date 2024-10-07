@@ -22,7 +22,7 @@ impl MemoryMappedHashMap {
         Self { mmap, capacity, current_offset: 0 }
     }
 
-    fn hash<T: Hash>(&self, key: &T) -> usize {
+    pub fn hash<T: Hash>(&self, key: &T) -> usize {
         let mut hasher = DefaultHasher::new();
         key.hash(&mut hasher);
         (hasher.finish() as usize) % self.capacity

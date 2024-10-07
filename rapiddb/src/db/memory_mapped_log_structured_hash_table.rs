@@ -45,22 +45,17 @@ impl MemoryMappedLogStructuredHashTable {
 
 impl IDatabase for MemoryMappedLogStructuredHashTable {
     fn contains(&self, id: &str) -> bool {
-        if let Ok(key) = id.parse::<usize>() {
-            self.index.get(key).is_some()
-        } else {
-            false
-        }
+        self.index.get(self.index.hash(&id)).is_some()
     }
 
     fn get(&mut self, id: &str, _: usize) -> Vec<u8> {
-        if let Ok(key) = id.parse::<usize>() {
-            if let Some(value) = self.index.get(key) {
-                let (file_id, offset): (usize, usize) = bincode::deserialize(&value).unwrap();
-                let data_file = &self.data_files[file_id];
-                data_file.get(offset).unwrap_or_else(Vec::new)
-            } else {
-                vec![]
-            }
+        if let Some(value) = self.index.get(self.index.hash(&id)) {
+            let (file_id, offset): (usize, usize) = match bincode::deserialize(&value) {
+                Ok(v) => v,
+                Err(_) => return vec![], // Handle deserialization error
+            };
+            let data_file = &self.data_files[file_id];
+            data_file.get(offset).unwrap_or_else(Vec::new)
         } else {
             vec![]
         }
@@ -71,13 +66,13 @@ impl IDatabase for MemoryMappedLogStructuredHashTable {
 
         if let Some(offset) = data_file.insert(id, value) {
             let index_value = bincode::serialize(&(self.current_file_id, offset)).unwrap();
-            self.index.insert(id, &index_value);
+            self.index.insert(&self.index.hash(&id).to_string(), &index_value);
         } else {
             self.switch_to_new_file();
             data_file = &mut self.data_files[self.current_file_id];
             let offset = data_file.insert(id, value).expect("Failed to insert into new data file");
             let index_value = bincode::serialize(&(self.current_file_id, offset)).unwrap();
-            self.index.insert(id, &index_value);
+            self.index.insert(&self.index.hash(&id).to_string(), &index_value);
         }
     }
 
