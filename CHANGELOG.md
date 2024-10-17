@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.32] - 2024-10-17
+
+### Build
+
+- Update deps
+- Use rust 1.82
+- Use rust 1.81
+
+### Ci
+
+- Update ci tooling
+
 ## [0.1.31] - 2024-05-26
 
 ### Ci
