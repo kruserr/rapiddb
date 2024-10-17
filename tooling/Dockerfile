@@ -1,4 +1,4 @@
-FROM docker.io/rust:1.82-slim-bookworm AS builder
+FROM docker.io/rust:1.81-slim-bookworm AS builder
 RUN apt-get update && \
   apt-get install -y pkg-config libssl-dev && \
   rm -rf /var/lib/apt/lists/*
